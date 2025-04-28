@@ -1,0 +1,6 @@
+@ETLPipelineTool_HostAddress = http://localhost:5187
+
+GET {{ETLPipelineTool_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
