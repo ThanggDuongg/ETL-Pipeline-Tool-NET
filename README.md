@@ -1,6 +1,6 @@
-# ETL Pipeline Monolith Project (.NET 8)
+# ETL Pipeline Project
 
-This project is a **.NET 8 monolithic backend** designed for **ETL (Extract, Transform, Load)** operations.  
+This project is designed for **ETL (Extract, Transform, Load)** operations.  
 It is architected with **CQRS**, **Repository Pattern**, **background jobs**, **caching**, and **observability**, and is prepared for a future migration to microservices.
 
 ---
