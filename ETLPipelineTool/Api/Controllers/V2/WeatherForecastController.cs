@@ -1,10 +1,10 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETLPipelineTool.Api.Controllers;
+namespace ETLPipelineTool.Api.Controllers.V2;
 
-[ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+[ApiVersion(2.0)]
+public class WeatherForecastController : BaseApiController
 {
     private static readonly string[] Summaries = new[]
     {
