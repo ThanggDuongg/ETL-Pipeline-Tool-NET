@@ -10,12 +10,13 @@
             var provider =
                 app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
 
+            app.UseSerilogRequestLogging();
             app.UseApiDocumentSupport(provider, env);
             app.UseCors();
             //app.UseMiddleware<SecurityHeadersMiddleware>();
             app.UseMiddleware<AntiforgeryMiddleware>();
-            app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<RequestLoggingMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

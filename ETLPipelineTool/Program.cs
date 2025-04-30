@@ -3,6 +3,9 @@ var builder = WebApplication.CreateBuilder(args);
 // KestrelServerOptions
 builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
 
+EnvironmentsHelper.SetupSerilog(builder);
+
+builder.Logging.AddSerilogService();
 builder.Services.AddAntiforgerySupport().AddControllers();
 builder
     .Services.AddProblemDetails()
@@ -24,6 +27,7 @@ builder
 var app = builder.Build();
 
 app.UseApplicationMiddlewares(app.Environment);
+app.UseSerilogRequestLogging();
 
 app.MapControllers();
 app.MapApplicationHealthChecks();

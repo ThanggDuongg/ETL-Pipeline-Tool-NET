@@ -1,4 +1,6 @@
-﻿namespace ETLPipelineTool.Api.Middlewares
+﻿using ETLPipelineTool.Application.Dtos.V1.Responses;
+
+namespace ETLPipelineTool.Api.Middlewares
 {
     public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
@@ -13,13 +15,22 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception");
+                _logger.LogError(ex, "Error: {Message}", ex.Message);
 
-                context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-                var result = JsonSerializer.Serialize(new { message = "Internal server error" });
-                await context.Response.WriteAsync(result);
+                if (ex is DbUpdateConcurrencyException)
+                {
+                    context.Response.StatusCode = StatusCodes.Status409Conflict;
+                }
+                if (ex is BusinessException exception)
+                {
+                    context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                    await context.Response.WriteAsJsonAsync(
+                        new BusinessExceptionDataDto(exception.Message)
+                    );
+                }
             }
         }
     }
