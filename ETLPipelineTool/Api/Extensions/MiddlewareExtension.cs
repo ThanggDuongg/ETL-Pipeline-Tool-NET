@@ -10,6 +10,7 @@
             var provider =
                 app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
 
+            app.UseMiniProfiler();
             app.UseSerilogRequestLogging();
             app.UseApiDocumentSupport(provider, env);
             app.UseCors();

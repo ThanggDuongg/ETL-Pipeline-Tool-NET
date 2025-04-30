@@ -16,6 +16,7 @@ builder
     .AddApiDocumentSupport()
     .AddApplicationHealthChecks()
     .AddApplicationServices()
+    .AddMiniProfilerSupport()
     .AddRouting(options =>
     {
         options.LowercaseUrls = true;

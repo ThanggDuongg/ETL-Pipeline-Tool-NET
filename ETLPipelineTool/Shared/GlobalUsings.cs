@@ -20,4 +20,6 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using Serilog;
+global using StackExchange.Profiling.SqlFormatters;
+global using StackExchange.Profiling.Storage;
 global using Swashbuckle.AspNetCore.SwaggerGen;
