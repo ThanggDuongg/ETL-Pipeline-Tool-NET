@@ -14,10 +14,11 @@
             app.UseSerilogRequestLogging();
             app.UseApiDocumentSupport(provider, env);
             app.UseCors();
-            //app.UseMiddleware<SecurityHeadersMiddleware>();
+            app.UseSecurityHeadersMiddleware();
             app.UseMiddleware<AntiforgeryMiddleware>();
             app.UseMiddleware<RequestLoggingMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseCacheControlHeaderMiddleware();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
