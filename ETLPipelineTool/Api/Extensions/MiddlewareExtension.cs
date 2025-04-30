@@ -1,6 +1,4 @@
-﻿using ETLPipelineTool.Api.Middlewares;
-
-namespace ETLPipelineTool.Api.Extensions
+﻿namespace ETLPipelineTool.Api.Extensions
 {
     public static class MiddlewareExtension
     {
@@ -9,12 +7,13 @@ namespace ETLPipelineTool.Api.Extensions
             IWebHostEnvironment env
         )
         {
-            //var provider =
-            //    app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
+            var provider =
+                app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
 
-            //app.UseApiDocumentSupport(provider, env);
+            app.UseApiDocumentSupport(provider, env);
             app.UseCors();
             //app.UseMiddleware<SecurityHeadersMiddleware>();
+            app.UseMiddleware<AntiforgeryMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseMiddleware<RequestLoggingMiddleware>();
             app.UseHttpsRedirection();

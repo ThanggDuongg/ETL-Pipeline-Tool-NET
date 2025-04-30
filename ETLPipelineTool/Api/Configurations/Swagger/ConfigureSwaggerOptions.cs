@@ -1,9 +1,4 @@
-﻿using Asp.Versioning.ApiExplorer;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace ETLPipelineTool.Api.Configurations.Swagger
+﻿namespace ETLPipelineTool.Api.Configurations.Swagger
 {
     public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
         : IConfigureOptions<SwaggerGenOptions>

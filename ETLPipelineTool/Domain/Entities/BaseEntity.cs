@@ -1,7 +1,4 @@
-﻿using ETLPipelineTool.Domain.Entities.Interfaces;
-using ETLPipelineTool.Shared.Utilities;
-
-namespace ETLPipelineTool.Domain.Entities
+﻿namespace ETLPipelineTool.Domain.Entities
 {
     public abstract class BaseEntity : IIdentity<Guid>, IVersioning, IAuditing
     {

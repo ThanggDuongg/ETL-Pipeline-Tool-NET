@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace ETLPipelineTool.Api.Middlewares
+﻿namespace ETLPipelineTool.Api.Middlewares
 {
     public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {

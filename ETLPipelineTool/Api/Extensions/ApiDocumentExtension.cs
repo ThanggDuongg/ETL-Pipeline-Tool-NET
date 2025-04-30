@@ -1,9 +1,4 @@
-﻿using Asp.Versioning.ApiExplorer;
-using ETLPipelineTool.Api.Configurations.Swagger;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace ETLPipelineTool.Api.Extensions
+﻿namespace ETLPipelineTool.Api.Extensions
 {
     public static class ApiDocumentExtension
     {

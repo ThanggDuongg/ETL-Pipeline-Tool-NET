@@ -13,12 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Api\Extensions\" />
-    <Folder Include="Api\Middlewares\" />
-    <Folder Include="Application\" />
-    <Folder Include="Domain\" />
-    <Folder Include="Infrastructure\" />
-    <Folder Include="Shared\" />
+    <Folder Include="Api\*" />
+    <Folder Include="Application\*" />
+    <Folder Include="Domain\*" />
+    <Folder Include="Infrastructure\*" />
+    <Folder Include="Shared\*" />
   </ItemGroup>
 
 </Project>

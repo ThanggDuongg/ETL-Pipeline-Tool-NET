@@ -1,6 +1,6 @@
-namespace ETLPipelineTool
+namespace ETLPipelineTool.Application.Dtos.V1.Responses
 {
-    public class WeatherForecast
+    public class WeatherForecastDataDto
     {
         public DateOnly Date { get; set; }
 

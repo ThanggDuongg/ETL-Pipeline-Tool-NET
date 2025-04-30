@@ -1,6 +1,4 @@
-﻿using Asp.Versioning;
-
-namespace ETLPipelineTool.Api.Extensions
+﻿namespace ETLPipelineTool.Api.Extensions
 {
     public static class ApiVersioningExtension
     {

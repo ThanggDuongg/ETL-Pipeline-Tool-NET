@@ -1,40 +1,29 @@
-using ETLPipelineTool.Api.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddProblemDetails();
+// KestrelServerOptions
+builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+
+builder.Services.AddAntiforgerySupport().AddControllers();
 builder
-    .Services
+    .Services.AddProblemDetails()
     //.AddInfrastructureServices(config)
     .AddCorsPolicy()
     .AddEndpointsApiExplorer()
     .AddApiVersioningSupport()
     .AddApiDocumentSupport()
     .AddApplicationHealthChecks()
-    .AddApplicationServices();
+    .AddApplicationServices()
+    .AddRouting(options =>
+    {
+        options.LowercaseUrls = true;
+        options.LowercaseQueryStrings = true;
+    });
 
 //.AddAppDbContext(config);
 
 var app = builder.Build();
 
 app.UseApplicationMiddlewares(app.Environment);
-app.UseSwagger();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerUI(options =>
-    {
-        var descriptions = app.DescribeApiVersions();
-
-        // build a swagger endpoint for each discovered API version
-        foreach (var description in descriptions)
-        {
-            var url = $"/swagger/{description.GroupName}/swagger.json";
-            var name = description.GroupName.ToUpperInvariant();
-            options.SwaggerEndpoint(url, name);
-        }
-    });
-}
 
 app.MapControllers();
 app.MapApplicationHealthChecks();
