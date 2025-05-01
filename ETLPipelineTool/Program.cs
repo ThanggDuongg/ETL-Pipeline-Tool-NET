@@ -8,7 +8,9 @@ EnvironmentsHelper.SetupSerilog(builder);
 builder.Logging.AddSerilogService();
 builder.Services.AddAntiforgerySupport().AddControllers();
 builder
-    .Services.AddProblemDetails()
+    .Services.AddAppSettingsConfiguration(builder.Configuration)
+    .AddProblemDetails()
+    .AddHttpContextAccessor()
     //.AddInfrastructureServices(config)
     .AddCorsPolicy()
     .AddEndpointsApiExplorer()
@@ -21,9 +23,8 @@ builder
     {
         options.LowercaseUrls = true;
         options.LowercaseQueryStrings = true;
-    });
-
-//.AddAppDbContext(config);
+    })
+    .AddDbContextConfiguration(builder.Configuration);
 
 var app = builder.Build();
 

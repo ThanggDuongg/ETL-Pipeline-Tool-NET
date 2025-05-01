@@ -6,8 +6,8 @@
 
         DateTime CreatedOn { get; set; }
 
-        string? ModifiedBy { get; set; }
+        string ModifiedBy { get; set; }
 
-        DateTime? ModifiedOn { get; set; }
+        DateTime ModifiedOn { get; set; }
     }
 }
