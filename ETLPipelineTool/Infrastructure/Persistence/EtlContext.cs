@@ -87,7 +87,7 @@
                 TEntity
         >(string name)
         {
-            return base.Set<TEntity>(name);
+            throw new NotSupportedException("This method is not implemented");
         }
 
         public IQueryable<T> Get<T>()
