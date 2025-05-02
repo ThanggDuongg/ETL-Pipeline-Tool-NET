@@ -1,9 +1,9 @@
 ﻿namespace ETLPipelineTool.Infrastructure.Repositories
 {
-    public class BaseRepository<TEntity>(EtlContext etlContext) : IBaseRepository<TEntity, Guid>
+    public class BaseRepository<TEntity>(IEtlContext etlContext) : IBaseRepository<TEntity, Guid>
         where TEntity : class, IIdentity<Guid>
     {
-        protected readonly EtlContext EtlContext = etlContext;
+        protected readonly IEtlContext EtlContext = etlContext;
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
