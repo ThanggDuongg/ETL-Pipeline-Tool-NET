@@ -1,4 +1,6 @@
-﻿namespace ETLPipelineTool.Domain.Entities
+﻿using ETLPipelineTool.Domain.Entities.Abstracts;
+
+namespace ETLPipelineTool.Domain.Entities
 {
     public class PipelineSchedule : BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace ETLPipelineTool.Domain.Entities
+﻿namespace ETLPipelineTool.Domain.Entities.Abstracts
 {
     public abstract class BaseEntity : IIdentity<Guid>, IVersioning, IAuditing
     {
