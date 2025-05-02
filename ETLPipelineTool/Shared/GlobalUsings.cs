@@ -3,6 +3,7 @@
 global using System.Data.Common;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
+global using System.Linq.Expressions;
 global using System.Reflection;
 global using System.Text.Json;
 global using Asp.Versioning;
@@ -16,6 +17,7 @@ global using ETLPipelineTool.Domain.Entities.Interfaces;
 global using ETLPipelineTool.Domain.Enums;
 global using ETLPipelineTool.Infrastructure.Persistence;
 global using ETLPipelineTool.Infrastructure.Persistence.Interceptors;
+global using ETLPipelineTool.Infrastructure.Repositories.Interfaces;
 global using ETLPipelineTool.Shared.Configurations;
 global using static ETLPipelineTool.Shared.Constants;
 global using ETLPipelineTool.Shared.Exceptions;
