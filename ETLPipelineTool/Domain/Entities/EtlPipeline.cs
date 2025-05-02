@@ -9,6 +9,8 @@
         public string SourceConfigurationJson { get; set; } = default!;
         public string TargetConfigurationJson { get; set; } = default!;
         public bool IsActive { get; set; } = true;
+
+        // TODO: Currently, set up as default with cascade strategy, considering applying soft-delete
         public ICollection<PipelineSchedule> PipelineSchedules { get; set; } = [];
         public ICollection<FieldMapping> FieldMappings { get; set; } = [];
         public ICollection<TransformRule> TransformRules { get; set; } = [];
