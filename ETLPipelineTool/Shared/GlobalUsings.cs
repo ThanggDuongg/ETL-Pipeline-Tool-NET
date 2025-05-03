@@ -43,6 +43,7 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.EntityFrameworkCore.Migrations;
 global using Microsoft.EntityFrameworkCore.Storage;
 global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+global using Microsoft.Extensions.FileProviders;
 global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using Serilog;

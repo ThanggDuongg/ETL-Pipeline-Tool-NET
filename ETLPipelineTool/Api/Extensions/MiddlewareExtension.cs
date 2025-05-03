@@ -11,6 +11,7 @@
                 app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>();
 
             app.UseMiniProfiler();
+            app.UseMiniLog(env.ContentRootPath);
             app.UseSerilogRequestLogging();
             app.UseApiDocumentSupport(provider, env);
             app.UseCors();
