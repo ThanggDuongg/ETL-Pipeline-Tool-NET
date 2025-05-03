@@ -36,8 +36,8 @@
             where T : class, IIdentity<Guid>;
 
         Task<int> SaveChangesAsync(
-            bool auditForAddOnly = false,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool auditForAddOnly = false
         );
 
         Task<int> SaveChangesNoAuditAsync(CancellationToken cancellationToken = default);

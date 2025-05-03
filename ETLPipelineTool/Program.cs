@@ -6,9 +6,17 @@ builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
 EnvironmentsHelper.SetupSerilog(builder);
 
 builder.Logging.AddSerilogService();
-builder.Services.AddAntiforgerySupport().AddControllers();
+builder.Services.AddAntiforgerySupport();
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
+
 builder
-    .Services.AddAppSettingsConfiguration(builder.Configuration)
+    .Services.AddValidationConfiguration()
+    .AddMediatRPipelineConfiguration()
+    .AddAppSettingsConfiguration(builder.Configuration)
     .AddProblemDetails()
     .AddHttpContextAccessor()
     //.AddInfrastructureServices(config)

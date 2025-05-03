@@ -20,9 +20,18 @@ namespace ETLPipelineTool.Api.Middlewares
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
+                if (ex is ModelValidationException validationException)
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                    var response = new { ex.Message, validationException.Errors };
+                    await context.Response.WriteAsJsonAsync(response);
+                    return;
+                }
                 if (ex is DbUpdateConcurrencyException)
                 {
                     context.Response.StatusCode = StatusCodes.Status409Conflict;
+                    return;
                 }
                 if (ex is BusinessException exception)
                 {
@@ -30,7 +39,12 @@ namespace ETLPipelineTool.Api.Middlewares
                     await context.Response.WriteAsJsonAsync(
                         new BusinessExceptionDataDto(exception.Message)
                     );
+                    return;
                 }
+
+                await context.Response.WriteAsJsonAsync(
+                    new { Message = "An unexpected error occurred." }
+                );
             }
         }
     }

@@ -136,14 +136,14 @@
             return Task.CompletedTask;
         }
 
-        public override async Task<int> SaveChangesAsync(
-            bool auditForAddOnly = false,
-            CancellationToken cancellation = default
+        public async Task<int> SaveChangesAsync(
+            CancellationToken cancellationToken = default,
+            bool auditForAddOnly = false
         )
         {
             await SetAuditData(auditForAddOnly);
             await AdaptRowVersion();
-            return await base.SaveChangesAsync(cancellation);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<int> SaveChangesNoAuditAsync(

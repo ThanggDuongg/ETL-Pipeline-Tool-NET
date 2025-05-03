@@ -8,11 +8,16 @@
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Path.Value ?? string.Empty;
+            var hasIgnoreAntiForgeryAttribute =
+                context
+                    .Features.Get<IEndpointFeature>()
+                    ?.Endpoint?.Metadata.Any(m => m is IgnoreAntiforgeryTokenAttribute) ?? false;
 
             if (
                 HttpMethods.IsGet(context.Request.Method)
                 || path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("/health", StringComparison.OrdinalIgnoreCase)
+                || hasIgnoreAntiForgeryAttribute
             )
             {
                 await _next(context);

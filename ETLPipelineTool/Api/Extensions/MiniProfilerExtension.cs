@@ -10,6 +10,7 @@
                     options.RouteBasePath = "/profiler";
                     options.TrackConnectionOpenClose = true;
                     options.EnableServerTimingHeader = true;
+                    options.EnableMvcViewProfiling = true;
 
                     if (options.Storage is MemoryCacheStorage memoryCacheStorage)
                     {

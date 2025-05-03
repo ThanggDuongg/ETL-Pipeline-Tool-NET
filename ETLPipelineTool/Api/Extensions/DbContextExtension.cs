@@ -37,6 +37,8 @@
                 }
             );
 
+            services.AddScoped<IEtlContext>(provider => provider.GetRequiredService<EtlContext>());
+
             return services;
         }
     }

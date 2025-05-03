@@ -27,6 +27,14 @@
 
             foreach (var entry in entries)
             {
+                var now = DateTime.UtcNow;
+                var user = "SYSTEM";
+                if (entry.Entity is IAuditing auditing)
+                {
+                    now = auditing.CreatedOn;
+                    user = auditing.CreatedBy;
+                }
+
                 db.AuditLogs.Add(
                     new AuditLog
                     {
@@ -45,6 +53,10 @@
                             entry.State != EntityState.Deleted
                                 ? JsonSerializer.Serialize(entry.CurrentValues.ToObject())
                                 : null,
+                        CreatedBy = user,
+                        CreatedOn = now,
+                        ModifiedBy = user,
+                        ModifiedOn = now,
                     }
                 );
             }
