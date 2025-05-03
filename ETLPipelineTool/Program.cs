@@ -15,7 +15,6 @@ builder.Services.AddControllers(options =>
 
 builder
     .Services.AddValidationConfiguration()
-    .AddMediatRPipelineConfiguration()
     .AddAppSettingsConfiguration(builder.Configuration)
     .AddProblemDetails()
     .AddHttpContextAccessor()

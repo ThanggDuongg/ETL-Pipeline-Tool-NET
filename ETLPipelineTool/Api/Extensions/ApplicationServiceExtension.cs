@@ -4,11 +4,16 @@
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SomeCommandHandler).Assembly));
-            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            //services.AddScoped<IPipelineBehavior<,>, ValidationBehavior<,>>();
-            //services.AddScoped<IPipelineBehavior<,>, LoggingBehavior<,>>();
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            });
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient(
+                typeof(IPipelineBehavior<,>),
+                typeof(UnhandledExceptionBehavior<,>)
+            );
 
             return services;
         }
