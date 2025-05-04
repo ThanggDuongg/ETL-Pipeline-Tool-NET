@@ -1,21 +1,41 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Requests;
+using ETLPipelineTool.Application.Dtos.V1.Responses;
 
 namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
 {
     public static class EtlPipelineMapper
     {
-        public static CreateEtlPipelineCommand ToCommand(CreateEtlPipelineDto dto)
+        public static EtlPipelineDataDto ToEtlPipelineDataDto(EtlPipeline entity)
         {
-            return new CreateEtlPipelineCommand
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                SourceType = dto.SourceType,
-                TargetType = dto.TargetType,
-                SourceConfigurationJson = dto.SourceConfigurationJson,
-                TargetConfigurationJson = dto.TargetConfigurationJson,
-                IsActive = dto.IsActive,
-            };
+            return new EtlPipelineDataDto(
+                entity.Id,
+                entity.Name,
+                entity.Description,
+                entity.SourceType,
+                entity.TargetType,
+                entity.SourceConfigurationJson,
+                entity.TargetConfigurationJson,
+                entity.IsActive,
+                entity.RowVersion
+            );
+        }
+
+        public static GetEtlPipelineDetailQuery ToGetEtlPipelineDetailQuery(Guid id)
+        {
+            return new GetEtlPipelineDetailQuery(id);
+        }
+
+        public static CreateEtlPipelineCommand ToCreateEtlPipelineCommand(CreateEtlPipelineDto dto)
+        {
+            return new CreateEtlPipelineCommand(
+                dto.Name,
+                dto.Description,
+                dto.SourceType,
+                dto.TargetType,
+                dto.SourceConfigurationJson,
+                dto.TargetConfigurationJson,
+                dto.IsActive
+            );
         }
 
         public static EtlPipeline ToEntity(CreateEtlPipelineCommand command)

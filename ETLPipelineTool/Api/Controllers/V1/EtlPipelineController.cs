@@ -1,4 +1,5 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Requests;
+using ETLPipelineTool.Application.Dtos.V1.Responses;
 
 namespace ETLPipelineTool.Api.Controllers.V1
 {
@@ -7,10 +8,16 @@ namespace ETLPipelineTool.Api.Controllers.V1
     {
         private readonly IMediator _mediator = mediator;
 
+        [HttpGet("{id}")]
+        public async Task<EtlPipelineDataDto> GetById([FromRoute] Guid id)
+        {
+            return await _mediator.Send(EtlPipelineMapper.ToGetEtlPipelineDetailQuery(id));
+        }
+
         [HttpPost]
         public async Task<Guid> Create([FromBody] CreateEtlPipelineDto dto)
         {
-            return await _mediator.Send(EtlPipelineMapper.ToCommand(dto));
+            return await _mediator.Send(EtlPipelineMapper.ToCreateEtlPipelineCommand(dto));
         }
     }
 }
