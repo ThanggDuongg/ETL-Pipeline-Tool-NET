@@ -2,14 +2,10 @@
 {
     public static class InfrastructureServiceExtension
     {
-        public static IServiceCollection AddInfrastructureServices(
-            this IServiceCollection services,
-            IConfiguration config
-        )
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IBookRepository, BookRepository>();
-            //services.AddScoped<IAuditLogger, AuditLogger>();
+            services.AddScoped<IEtlPipelineRepository, EtlPipelineRepository>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             return services;
         }

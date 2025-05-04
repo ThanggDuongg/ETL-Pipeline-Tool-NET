@@ -18,7 +18,7 @@ builder
     .AddAppSettingsConfiguration(builder.Configuration)
     .AddProblemDetails()
     .AddHttpContextAccessor()
-    //.AddInfrastructureServices(config)
+    .AddInfrastructureServices()
     .AddCorsPolicy()
     .AddEndpointsApiExplorer()
     .AddApiVersioningSupport()

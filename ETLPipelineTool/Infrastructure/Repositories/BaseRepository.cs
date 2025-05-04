@@ -1,6 +1,6 @@
 ﻿namespace ETLPipelineTool.Infrastructure.Repositories
 {
-    public class BaseRepository<TEntity>(IEtlContext etlContext) : IBaseRepository<TEntity, Guid>
+    public class BaseRepository<TEntity>(IEtlContext etlContext) : IBaseRepository<TEntity>
         where TEntity : class, IIdentity<Guid>
     {
         protected readonly IEtlContext EtlContext = etlContext;
@@ -15,7 +15,7 @@
             await EtlContext.RemoveAsync<TEntity>(entity);
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var entity = await GetByIdAsync(id, cancellationToken);
             await DeleteAsync(entity);
