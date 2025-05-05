@@ -4,18 +4,15 @@ namespace ETLPipelineTool.Api.Middlewares
 {
     public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next = next;
-        private readonly ILogger<ExceptionMiddleware> _logger = logger;
-
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next(context);
+                await next(context);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error: {Message}", ex.Message);
+                logger.LogError(ex, "Error: {Message}", ex.Message);
 
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;

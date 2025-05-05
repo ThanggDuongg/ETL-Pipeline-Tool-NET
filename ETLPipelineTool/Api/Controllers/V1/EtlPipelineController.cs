@@ -6,18 +6,16 @@ namespace ETLPipelineTool.Api.Controllers.V1
     [ApiVersion(1.0)]
     public class EtlPipelineController(IMediator mediator) : BaseApiController
     {
-        private readonly IMediator _mediator = mediator;
-
         [HttpGet("{id}")]
         public async Task<EtlPipelineDataDto> GetById([FromRoute] Guid id)
         {
-            return await _mediator.Send(EtlPipelineMapper.ToGetEtlPipelineDetailQuery(id));
+            return await mediator.Send(EtlPipelineMapper.ToGetEtlPipelineDetailQuery(id));
         }
 
         [HttpPost]
         public async Task<Guid> Create([FromBody] CreateEtlPipelineDto dto)
         {
-            return await _mediator.Send(EtlPipelineMapper.ToCreateEtlPipelineCommand(dto));
+            return await mediator.Send(EtlPipelineMapper.ToCreateEtlPipelineCommand(dto));
         }
     }
 }

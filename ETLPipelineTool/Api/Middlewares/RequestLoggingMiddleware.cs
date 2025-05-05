@@ -5,9 +5,6 @@
         ILogger<RequestLoggingMiddleware> logger
     )
     {
-        private readonly RequestDelegate _next = next;
-        private readonly ILogger<RequestLoggingMiddleware> _logger = logger;
-
         public async Task Invoke(HttpContext context)
         {
             var stopwatch = Stopwatch.StartNew();
@@ -15,17 +12,17 @@
 
             try
             {
-                _logger.LogInformation(
+                logger.LogInformation(
                     "Started request: Method={Method}, Path={Path}, QueryString={QueryString}",
                     request.Method,
                     request.Path,
                     request.QueryString
                 );
 
-                await _next(context);
+                await next(context);
 
                 stopwatch.Stop();
-                _logger.LogInformation(
+                logger.LogInformation(
                     "Finished request: Method={Method}, Path={Path}, QueryString={QueryString}, Status=Success, SpentTime={SpentTime}ms",
                     request.Method,
                     request.Path,
@@ -36,7 +33,7 @@
             catch (Exception ex)
             {
                 stopwatch.Stop();
-                _logger.LogError(
+                logger.LogError(
                     ex,
                     "Finished request: Method={Method}, Path={Path}, QueryString={QueryString}, Status=Failure, SpentTime={SpentTime}ms",
                     request.Method,

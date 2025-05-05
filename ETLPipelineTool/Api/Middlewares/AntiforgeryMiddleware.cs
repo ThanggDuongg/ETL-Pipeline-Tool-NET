@@ -2,9 +2,6 @@
 {
     public class AntiforgeryMiddleware(RequestDelegate next, IAntiforgery antiforgery)
     {
-        private readonly RequestDelegate _next = next;
-        private readonly IAntiforgery _antiforgery = antiforgery;
-
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Path.Value ?? string.Empty;
@@ -20,14 +17,14 @@
                 || hasIgnoreAntiForgeryAttribute
             )
             {
-                await _next(context);
+                await next(context);
                 return;
             }
 
             try
             {
-                await _antiforgery.ValidateRequestAsync(context);
-                await _next(context);
+                await antiforgery.ValidateRequestAsync(context);
+                await next(context);
             }
             catch (AntiforgeryValidationException)
             {

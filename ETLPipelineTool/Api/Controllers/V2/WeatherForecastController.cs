@@ -20,12 +20,10 @@ public class WeatherForecastController(ILogger<WeatherForecastController> logger
         "Scorching",
     ];
 
-    private readonly ILogger<WeatherForecastController> _logger = logger;
-
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecastDataDto> Get()
     {
-        _logger.LogInformation("V2");
+        logger.LogInformation("V2");
         return
         [
             .. Enumerable

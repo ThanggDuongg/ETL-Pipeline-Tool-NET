@@ -3,8 +3,6 @@
     public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
         : IConfigureOptions<SwaggerGenOptions>
     {
-        readonly IApiVersionDescriptionProvider provider = provider;
-
         public void Configure(SwaggerGenOptions options)
         {
             foreach (var description in provider.ApiVersionDescriptions)

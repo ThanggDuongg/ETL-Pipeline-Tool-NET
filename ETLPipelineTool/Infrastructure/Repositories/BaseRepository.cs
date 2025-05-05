@@ -3,16 +3,14 @@
     public class BaseRepository<TEntity>(IEtlContext etlContext) : IBaseRepository<TEntity>
         where TEntity : class, IIdentity<Guid>
     {
-        protected readonly IEtlContext EtlContext = etlContext;
-
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await EtlContext.AddAsync<TEntity>(entity, cancellationToken);
+            await etlContext.AddAsync<TEntity>(entity, cancellationToken);
         }
 
         public async Task DeleteAsync(TEntity entity)
         {
-            await EtlContext.RemoveAsync<TEntity>(entity);
+            await etlContext.RemoveAsync<TEntity>(entity);
         }
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -26,7 +24,7 @@
             CancellationToken cancellationToken = default
         )
         {
-            return await EtlContext.GetById<TEntity>(id, cancellationToken);
+            return await etlContext.GetById<TEntity>(id, cancellationToken);
         }
 
         public async Task<TDto> GetByIdAsync<TDto>(
@@ -37,7 +35,7 @@
         )
             where TDto : class
         {
-            var queryable = EtlContext.Get<TEntity>().Where(e => EF.Property<Guid>(e, "Id") == id);
+            var queryable = etlContext.Get<TEntity>().Where(e => EF.Property<Guid>(e, "Id") == id);
 
             if (predicate is not null)
             {
@@ -53,7 +51,7 @@
 
         public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await EtlContext.UpdateAsync<TEntity>(entity);
+            await etlContext.UpdateAsync<TEntity>(entity);
         }
     }
 }
