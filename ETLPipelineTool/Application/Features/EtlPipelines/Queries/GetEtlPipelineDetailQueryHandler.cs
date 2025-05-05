@@ -1,21 +1,20 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Responses;
+using ETLPipelineTool.Application.Features.EtlPipelines.Projections;
 
 namespace ETLPipelineTool.Application.Features.EtlPipelines.Queries
 {
     public class GetEtlPipelineDetailQueryHandler(IEtlPipelineRepository etlPipelineRepository)
         : IRequestHandler<GetEtlPipelineDetailQuery, EtlPipelineDataDto>
     {
-        private readonly IEtlPipelineRepository _etlPipelineRepository = etlPipelineRepository;
-
         public async Task<EtlPipelineDataDto> Handle(
             GetEtlPipelineDetailQuery request,
             CancellationToken cancellationToken
         )
         {
-            var data = await _etlPipelineRepository.GetByIdAsync(
+            var data = await etlPipelineRepository.GetByIdAsync(
                 request.Id,
-                x => x.IsActive,
-                x => EtlPipelineMapper.ToEtlPipelineDataDto(x),
+                null,
+                EtlPipelineProjection.AsEtlPipelineDataDto(),
                 cancellationToken
             );
             return data;

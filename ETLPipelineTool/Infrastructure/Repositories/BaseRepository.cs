@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace ETLPipelineTool.Infrastructure.Repositories
+﻿namespace ETLPipelineTool.Infrastructure.Repositories
 {
     public class BaseRepository<TEntity>(IEtlContext etlContext) : IBaseRepository<TEntity>
         where TEntity : class, IIdentity<Guid>

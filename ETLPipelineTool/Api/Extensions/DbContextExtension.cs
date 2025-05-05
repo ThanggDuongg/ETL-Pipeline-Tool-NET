@@ -9,6 +9,7 @@
         {
             // Interceptors
             services.AddSingleton<AuditLogSaveChangesInterceptor>();
+            services.AddSingleton<SlowQueryDetectionInterceptor>();
 
             // DbContexts
             services.AddDbContext<EtlContext>(
@@ -17,8 +18,11 @@
                     var databaseSettings = serviceProvider
                         .GetRequiredService<IOptions<DatabaseSettings>>()
                         .Value;
+                    var logger = serviceProvider.GetRequiredService<ILogger<EtlContext>>();
                     var auditLogSaveChangesInterceptor =
                         serviceProvider.GetRequiredService<AuditLogSaveChangesInterceptor>();
+                    var slowQueryDetectionInterceptor =
+                        serviceProvider.GetRequiredService<SlowQueryDetectionInterceptor>();
 
                     options.UseSqlServer(
                         configuration.GetConnectionString("DefaultConnection"),
@@ -28,11 +32,16 @@
                             sql.EnableRetryOnFailure();
                         }
                     );
-                    options.AddInterceptors(auditLogSaveChangesInterceptor);
+                    options.AddInterceptors(
+                        auditLogSaveChangesInterceptor,
+                        slowQueryDetectionInterceptor
+                    );
 
                     if (databaseSettings.EnableSensitiveDataLogging)
                     {
-                        options.EnableSensitiveDataLogging();
+                        options
+                            .EnableSensitiveDataLogging()
+                            .LogTo(message => logger.LogInformation(message), LogLevel.Information);
                     }
                 }
             );
