@@ -81,7 +81,7 @@ src/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/etl-pipeline-monolith.git
+   git clone https://github.com/ThanggDuongg/ETL-Pipeline-Tool-NET.git
    ```
 
 TBD
