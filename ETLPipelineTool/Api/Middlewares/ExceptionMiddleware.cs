@@ -21,20 +21,21 @@ namespace ETLPipelineTool.Api.Middlewares
                 {
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-                    var response = new { ex.Message, validationException.Errors };
+                    var response = new ExceptionDataDto(ex.Message, validationException.Errors);
                     await context.Response.WriteAsJsonAsync(response);
                     return;
                 }
                 if (ex is DbUpdateConcurrencyException)
                 {
                     context.Response.StatusCode = StatusCodes.Status409Conflict;
+                    await context.Response.WriteAsJsonAsync(new ExceptionDataDto("Data conflict"));
                     return;
                 }
                 if (ex is BusinessException exception)
                 {
                     context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
                     await context.Response.WriteAsJsonAsync(
-                        new BusinessExceptionDataDto(exception.Message)
+                        new ExceptionDataDto(exception.Message)
                     );
                     return;
                 }

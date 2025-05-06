@@ -3,9 +3,9 @@
     public class CreateEtlPipelineCommandHandler(
         IEtlContext context,
         IEtlPipelineRepository etlPipelineRepository
-    ) : IRequestHandler<CreateEtlPipelineCommand, Guid>
+    ) : IRequestHandler<CreateEtlPipelineCommand, Unit>
     {
-        public async Task<Guid> Handle(
+        public async Task<Unit> Handle(
             CreateEtlPipelineCommand command,
             CancellationToken cancellationToken
         )
@@ -15,7 +15,7 @@
             await etlPipelineRepository.AddAsync(entity, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            return entity.Id;
+            return Unit.Value;
         }
     }
 }

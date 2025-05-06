@@ -4,6 +4,21 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
 {
     public static class EtlPipelineMapper
     {
+        public static UpdateEtlPipelineCommand ToUpdateEtlPipelineCommand(UpdateEtlPipelineDto dto)
+        {
+            return new UpdateEtlPipelineCommand(
+                dto.Id,
+                dto.Name,
+                dto.Description,
+                dto.SourceType,
+                dto.TargetType,
+                dto.SourceConfigurationJson,
+                dto.TargetConfigurationJson,
+                dto.IsActive,
+                dto.RowVersion
+            );
+        }
+
         public static GetEtlPipelineDetailQuery ToGetEtlPipelineDetailQuery(Guid id)
         {
             return new GetEtlPipelineDetailQuery(id);

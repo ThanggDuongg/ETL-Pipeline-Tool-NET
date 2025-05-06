@@ -8,10 +8,15 @@ EnvironmentsHelper.SetupSerilog(builder);
 builder.Logging.AddSerilogService();
 builder.Services.AddAntiforgerySupport();
 builder.Services.AddControllersWithViews();
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-});
+builder
+    .Services.AddControllers(options =>
+    {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
 builder
     .Services.AddValidationConfiguration()

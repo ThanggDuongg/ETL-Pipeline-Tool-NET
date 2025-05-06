@@ -12,10 +12,16 @@ namespace ETLPipelineTool.Api.Controllers.V1
             return await mediator.Send(EtlPipelineMapper.ToGetEtlPipelineDetailQuery(id));
         }
 
-        [HttpPost]
-        public async Task<Guid> Create([FromBody] CreateEtlPipelineDto dto)
+        [HttpPut]
+        public async Task Update([FromBody] UpdateEtlPipelineDto dto)
         {
-            return await mediator.Send(EtlPipelineMapper.ToCreateEtlPipelineCommand(dto));
+            await mediator.Send(EtlPipelineMapper.ToUpdateEtlPipelineCommand(dto));
+        }
+
+        [HttpPost]
+        public async Task Create([FromBody] CreateEtlPipelineDto dto)
+        {
+            await mediator.Send(EtlPipelineMapper.ToCreateEtlPipelineCommand(dto));
         }
     }
 }
