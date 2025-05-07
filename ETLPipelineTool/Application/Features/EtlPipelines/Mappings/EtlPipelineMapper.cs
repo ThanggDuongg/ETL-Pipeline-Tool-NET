@@ -4,6 +4,11 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
 {
     public static class EtlPipelineMapper
     {
+        public static DeleteEtlPipelineCommand ToDeleteEtlPipelineCommand(Guid id)
+        {
+            return new DeleteEtlPipelineCommand(id);
+        }
+
         public static UpdateEtlPipelineCommand ToUpdateEtlPipelineCommand(UpdateEtlPipelineDto dto)
         {
             return new UpdateEtlPipelineCommand(

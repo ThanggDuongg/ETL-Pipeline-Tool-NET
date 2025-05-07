@@ -12,6 +12,12 @@ namespace ETLPipelineTool.Api.Controllers.V1
             return await mediator.Send(EtlPipelineMapper.ToGetEtlPipelineDetailQuery(id));
         }
 
+        [HttpDelete("{id}")]
+        public async Task Delete([FromRoute] Guid id)
+        {
+            await mediator.Send(EtlPipelineMapper.ToDeleteEtlPipelineCommand(id));
+        }
+
         [HttpPut]
         public async Task Update([FromBody] UpdateEtlPipelineDto dto)
         {
