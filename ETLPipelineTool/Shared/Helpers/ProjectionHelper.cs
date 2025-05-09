@@ -2,6 +2,23 @@
 {
     public static class ProjectionHelper
     {
+        /// <summary>
+        /// Builds a dynamic selector that maps only the specified <paramref name="fields"/>
+        /// from <typeparamref name="TEntity"/> to <typeparamref name="TDto"/>.
+        /// </summary>
+        /// <typeparam name="TEntity">The source entity type (must inherit from BaseEntity).</typeparam>
+        /// <typeparam name="TDto">
+        /// The destination DTO type. Must have a parameterless constructor and settable properties.
+        /// </typeparam>
+        /// <param name="fields">List of property names to include in the projection.</param>
+        /// <returns>Expression that maps selected fields to a new <typeparamref name="TDto"/>.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <typeparamref name="TDto"/> doesn't have a parameterless constructor.
+        /// </exception>
+        /// <remarks>
+        /// Make sure <typeparamref name="TDto"/> is a record *object-style* (not positional).
+        /// All mapped properties must be settable (e.g. with `init`) and there must be an empty constructor.
+        /// </remarks>
         public static Expression<Func<TEntity, TDto>> CreateDynamicSelector<TEntity, TDto>(
             ICollection<string> fields
         )
