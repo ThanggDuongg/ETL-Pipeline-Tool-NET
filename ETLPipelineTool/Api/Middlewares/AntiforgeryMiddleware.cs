@@ -14,6 +14,8 @@
                 HttpMethods.IsGet(context.Request.Method)
                 || path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("/health", StringComparison.OrdinalIgnoreCase)
+                || path.StartsWith("/grid", StringComparison.OrdinalIgnoreCase)
+                || path.StartsWith("/search", StringComparison.OrdinalIgnoreCase)
                 || hasIgnoreAntiForgeryAttribute
             )
             {

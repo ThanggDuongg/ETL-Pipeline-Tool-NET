@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace ETLPipelineTool.Domain.Interfaces.Repositories
+﻿namespace ETLPipelineTool.Domain.Interfaces.Repositories
 {
     public interface IBaseRepository<TEntity>
         where TEntity : class
@@ -14,6 +12,8 @@ namespace ETLPipelineTool.Domain.Interfaces.Repositories
             CancellationToken cancellationToken = default
         )
             where TDto : class;
+
+        IQueryable<TEntity> GetList(bool isTracking = false);
 
         Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 

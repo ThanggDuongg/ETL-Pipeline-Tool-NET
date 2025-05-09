@@ -1,5 +1,4 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Responses;
-using ETLPipelineTool.Application.Features.EtlPipelines.Projections;
 
 namespace ETLPipelineTool.Application.Features.EtlPipelines.Queries
 {

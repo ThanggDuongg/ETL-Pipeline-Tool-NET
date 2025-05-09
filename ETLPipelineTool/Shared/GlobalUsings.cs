@@ -1,5 +1,6 @@
 ﻿// GlobalUsings.cs
 
+global using System.ComponentModel.DataAnnotations;
 global using System.Data.Common;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
@@ -14,10 +15,15 @@ global using ETLPipelineTool.Api.Configurations.Swagger;
 global using ETLPipelineTool.Api.Extensions;
 global using ETLPipelineTool.Api.Middlewares;
 global using ETLPipelineTool.Application.Behaviors;
+global using ETLPipelineTool.Application.Dtos.Sorting;
+global using ETLPipelineTool.Application.Features.Common.Interfaces;
+global using ETLPipelineTool.Application.Features.Common.Queries;
 global using ETLPipelineTool.Application.Features.EtlPipelines.Commands;
 global using ETLPipelineTool.Application.Features.EtlPipelines.Mappings;
+global using ETLPipelineTool.Application.Features.EtlPipelines.Projections;
 global using ETLPipelineTool.Application.Features.EtlPipelines.Queries;
 global using ETLPipelineTool.Domain.Entities;
+global using ETLPipelineTool.Domain.Entities.Abstracts;
 global using ETLPipelineTool.Domain.Entities.Interfaces;
 global using ETLPipelineTool.Domain.Enums;
 global using ETLPipelineTool.Domain.Interfaces.Repositories;

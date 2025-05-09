@@ -40,6 +40,7 @@
     <Folder Include="Application\*" />
     <Folder Include="Domain\*" />
     <Folder Include="Infrastructure\*" />
+    <Folder Include="Shared\Sorting\" />
     <!-- <Folder Include="Shared\*" /> -->
   </ItemGroup>
 

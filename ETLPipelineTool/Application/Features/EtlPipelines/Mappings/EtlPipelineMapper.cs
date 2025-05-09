@@ -4,6 +4,17 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
 {
     public static class EtlPipelineMapper
     {
+        public static GetEtlPipelinesQuery ToGetEtlPipelinesQuery(GridEtlPipelinesFilterDto dto)
+        {
+            return new GetEtlPipelinesQuery(
+                dto.GridDataSourceDto.Take,
+                dto.GridDataSourceDto.Skip,
+                dto.GridDataSourceDto.PreloadAllData,
+                dto.GridDataSourceDto.SortFields,
+                dto.IsActive
+            );
+        }
+
         public static DeleteEtlPipelineCommand ToDeleteEtlPipelineCommand(Guid id)
         {
             return new DeleteEtlPipelineCommand(id);

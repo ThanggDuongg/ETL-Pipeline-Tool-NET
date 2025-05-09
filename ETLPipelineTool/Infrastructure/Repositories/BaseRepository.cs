@@ -49,6 +49,17 @@
             return data;
         }
 
+        public IQueryable<TEntity> GetList(bool isTracking = false)
+        {
+            var query = etlContext.Get<TEntity>();
+            if (isTracking)
+            {
+                query = query.AsTracking();
+            }
+
+            return query;
+        }
+
         public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             await etlContext.UpdateAsync<TEntity>(entity);
