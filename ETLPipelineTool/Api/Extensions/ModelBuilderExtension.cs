@@ -70,8 +70,7 @@
                 modelBuilder
                     .Entity(clrType)
                     .Property(nameof(IVersioning.RowVersion))
-                    .IsRowVersion()
-                    .IsRequired();
+                    .IsRowVersion();
             }
         }
 

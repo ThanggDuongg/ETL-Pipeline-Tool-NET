@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(EtlContext))]
-    [Migration("20250501185738_InitializeTables")]
+    [Migration("20250510182342_InitializeTables")]
     partial class InitializeTables
     {
         /// <inheritdoc />
@@ -62,7 +62,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
@@ -107,7 +106,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
@@ -162,7 +160,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
@@ -185,6 +182,9 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("EtlPipeline", (string)null);
                 });
@@ -216,7 +216,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
@@ -274,7 +273,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
@@ -309,7 +307,6 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 

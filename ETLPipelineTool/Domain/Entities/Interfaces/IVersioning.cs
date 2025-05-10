@@ -2,6 +2,6 @@
 {
     public interface IVersioning
     {
-        byte[] RowVersion { get; set; }
+        byte[]? RowVersion { get; set; }
     }
 }

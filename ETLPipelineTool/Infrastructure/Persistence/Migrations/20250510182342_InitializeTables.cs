@@ -33,7 +33,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -83,7 +83,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -117,7 +117,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -161,7 +161,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -200,7 +200,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -239,7 +239,7 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                     RowVersion = table.Column<byte[]>(
                         type: "rowversion",
                         rowVersion: true,
-                        nullable: false
+                        nullable: true
                     ),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -263,6 +263,13 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                 name: "IX_EtlExecutionLog_EtlPipelineId",
                 table: "EtlExecutionLog",
                 column: "EtlPipelineId"
+            );
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EtlPipeline_Name",
+                table: "EtlPipeline",
+                column: "Name",
+                unique: true
             );
 
             migrationBuilder.CreateIndex(

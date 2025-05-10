@@ -1,0 +1,16 @@
+﻿global using System.Reflection;
+global using ETLPipelineTool.Api.Extensions;
+global using ETLPipelineTool.Application.Features.EtlPipelines.Commands;
+global using ETLPipelineTool.Domain.Entities;
+global using ETLPipelineTool.Domain.Entities.Abstracts;
+global using ETLPipelineTool.Domain.Enums;
+global using ETLPipelineTool.Infrastructure.Persistence;
+global using ETLPipelineTool.IntegrationTest.Common.Extensions;
+global using FluentValidation;
+global using FluentValidation.Results;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;
+global using Microsoft.VisualStudio.TestPlatform.TestHost;

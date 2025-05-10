@@ -5,6 +5,7 @@
         public void Configure(EntityTypeBuilder<EtlPipeline> builder)
         {
             builder.Property(x => x.Name).HasUnicodeTextColumn(50).IsRequired();
+            builder.HasIndex(x => x.Name).IsUnique();
             builder.Property(x => x.Description).HasUnicodeTextColumn(256).IsRequired();
             builder
                 .Property(x => x.SourceType)
