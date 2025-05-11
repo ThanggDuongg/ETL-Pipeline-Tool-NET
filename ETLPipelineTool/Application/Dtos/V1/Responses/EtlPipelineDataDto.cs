@@ -10,7 +10,7 @@
         public string SourceConfigurationJson { get; init; } = default!;
         public string TargetConfigurationJson { get; init; } = default!;
         public bool IsActive { get; init; }
-        public byte[] RowVersion { get; init; } = default!;
+        public byte[]? RowVersion { get; init; }
 
         public EtlPipelineDataDto() { }
 
@@ -23,7 +23,7 @@
             string sourceConfigurationJson,
             string targetConfigurationJson,
             bool isActive,
-            byte[] rowVersion
+            byte[]? rowVersion
         )
         {
             Id = id;
