@@ -36,7 +36,6 @@ global using ETLPipelineTool.Shared.Exceptions;
 global using ETLPipelineTool.Shared.Helpers;
 global using ETLPipelineTool.Shared.Utilities;
 global using FluentValidation;
-global using FluentValidation.AspNetCore;
 global using FluentValidation.Results;
 global using Ganss.Xss;
 global using MediatR;

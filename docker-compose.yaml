@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  etlpipeline:
+    build: .
+    ports:
+       - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"

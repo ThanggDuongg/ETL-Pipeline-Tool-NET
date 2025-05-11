@@ -7,15 +7,14 @@
         )
         {
             services
-                .AddFluentValidationAutoValidation()
                 .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
                 .Configure<ApiBehaviorOptions>(options =>
                 {
-                    //options.SuppressModelStateInvalidFilter = true; // Bypass validate model state
-                    options.InvalidModelStateResponseFactory = (context) =>
-                    {
-                        return new BadRequestObjectResult("Invalid request");
-                    };
+                    options.SuppressModelStateInvalidFilter = true; // Bypass validate model state
+                    //options.InvalidModelStateResponseFactory = (context) =>
+                    //{
+                    //    return new BadRequestObjectResult("Invalid request");
+                    //};
                 });
 
             return services;
