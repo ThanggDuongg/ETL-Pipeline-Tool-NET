@@ -8,7 +8,7 @@
         string sourceConfigurationJson,
         string targetConfigurationJson,
         bool isActive
-    ) : IRequest<Unit>
+    ) : IRequest<Guid>
     {
         public string Name { get; set; } = name;
         public string Description { get; set; } = description;

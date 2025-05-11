@@ -52,12 +52,13 @@ namespace ETLPipelineTool.Api.Controllers.V1
         }
 
         [HttpPost]
-        public async Task Create(
+        [IgnoreAntiforgeryToken]
+        public async Task<Guid> Create(
             [FromBody] CreateEtlPipelineDto dto,
             CancellationToken cancellationToken
         )
         {
-            await mediator.Send(
+            return await mediator.Send(
                 EtlPipelineMapper.ToCreateEtlPipelineCommand(dto),
                 cancellationToken
             );

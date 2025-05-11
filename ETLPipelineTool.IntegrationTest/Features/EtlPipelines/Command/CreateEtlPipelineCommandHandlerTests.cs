@@ -1,9 +1,7 @@
-﻿using ETLPipelineTool.Domain.Enums;
-
-namespace ETLPipelineTool.IntegrationTest.Features.EtlPipelines.Command
+﻿namespace ETLPipelineTool.IntegrationTest.Features.EtlPipelines.Command
 {
     public class CreateEtlPipelineCommandHandlerTests
-        : BaseHandlerTest<CreateEtlPipelineCommand, Unit>
+        : BaseHandlerTest<CreateEtlPipelineCommand, Guid>
     {
         [Fact]
         public async Task TestHandler_WhenInputIsValid_ThenCreateNewEtlPipeline()
@@ -20,12 +18,13 @@ namespace ETLPipelineTool.IntegrationTest.Features.EtlPipelines.Command
             );
 
             // Act
-            await Service.Handle(command, new CancellationToken());
+            var id = await Service.Handle(command, new CancellationToken());
 
             // Assert
             var etlPipeline = await Container
                 .GetEntities<EtlPipeline>()
                 .SingleOrDefaultAsync(x => x.Name == command.Name);
+            Assert.NotEmpty(id.ToString());
             Assert.NotNull(etlPipeline);
         }
     }

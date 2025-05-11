@@ -11,7 +11,8 @@
                     ?.Endpoint?.Metadata.Any(m => m is IgnoreAntiforgeryTokenAttribute) ?? false;
 
             if (
-                HttpMethods.IsGet(context.Request.Method)
+                EnvironmentsHelper.IsDevelopment()
+                || HttpMethods.IsGet(context.Request.Method)
                 || path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("/health", StringComparison.OrdinalIgnoreCase)
                 || path.StartsWith("/grid", StringComparison.OrdinalIgnoreCase)
