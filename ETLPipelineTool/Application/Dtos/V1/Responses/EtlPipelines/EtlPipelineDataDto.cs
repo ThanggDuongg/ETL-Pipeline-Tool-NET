@@ -1,4 +1,4 @@
-﻿namespace ETLPipelineTool.Application.Dtos.V1.Responses
+﻿namespace ETLPipelineTool.Application.Dtos.V1.Responses.EtlPipelines
 {
     public record EtlPipelineDataDto
     {

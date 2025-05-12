@@ -1,5 +1,6 @@
-﻿using ETLPipelineTool.Application.Dtos.V1.Requests;
+﻿using ETLPipelineTool.Application.Dtos.V1.Requests.EtlPipelines;
 using ETLPipelineTool.Application.Dtos.V1.Responses;
+using ETLPipelineTool.Application.Dtos.V1.Responses.EtlPipelines;
 
 namespace ETLPipelineTool.Api.Controllers.V1
 {
@@ -52,7 +53,6 @@ namespace ETLPipelineTool.Api.Controllers.V1
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
         public async Task<Guid> Create(
             [FromBody] CreateEtlPipelineDto dto,
             CancellationToken cancellationToken

@@ -1,14 +1,12 @@
-﻿namespace ETLPipelineTool.Application.Dtos.V1.Requests
+﻿namespace ETLPipelineTool.Application.Dtos.V1.Requests.EtlPipelines
 {
-    public record UpdateEtlPipelineDto(
-        Guid Id,
+    public record CreateEtlPipelineDto(
         string Name,
         string Description,
         PipelineSourceType SourceType,
         PipelineTargetType TargetType,
         string SourceConfigurationJson,
         string TargetConfigurationJson,
-        bool IsActive,
-        byte[] RowVersion
+        bool IsActive
     );
 }

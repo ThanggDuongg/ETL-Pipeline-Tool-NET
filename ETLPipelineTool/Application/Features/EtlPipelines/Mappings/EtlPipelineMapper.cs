@@ -1,4 +1,4 @@
-﻿using ETLPipelineTool.Application.Dtos.V1.Requests;
+﻿using ETLPipelineTool.Application.Dtos.V1.Requests.EtlPipelines;
 
 namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
 {
