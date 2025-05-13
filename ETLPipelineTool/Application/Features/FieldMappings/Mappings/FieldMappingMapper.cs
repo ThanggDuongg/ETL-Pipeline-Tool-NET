@@ -4,6 +4,11 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
 {
     public static class FieldMappingMapper
     {
+        public static DeleteFieldMappingCommand ToDeleteFieldMappingCommand(Guid id)
+        {
+            return new DeleteFieldMappingCommand(id);
+        }
+
         public static FieldMapping ToEntity(CreateFieldMappingCommand command)
         {
             return new FieldMapping
