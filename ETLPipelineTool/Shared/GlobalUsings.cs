@@ -24,6 +24,7 @@ global using ETLPipelineTool.Application.Features.EtlPipelines.Projections;
 global using ETLPipelineTool.Application.Features.EtlPipelines.Queries;
 global using ETLPipelineTool.Application.Features.FieldMappings.Commands;
 global using ETLPipelineTool.Application.Features.FieldMappings.Mappings;
+global using ETLPipelineTool.Application.Features.FieldMappings.Projections;
 global using ETLPipelineTool.Domain.Entities;
 global using ETLPipelineTool.Domain.Entities.Abstracts;
 global using ETLPipelineTool.Domain.Entities.Interfaces;
