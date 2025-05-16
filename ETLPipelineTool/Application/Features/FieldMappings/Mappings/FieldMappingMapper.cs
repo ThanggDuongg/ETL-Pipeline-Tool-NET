@@ -15,9 +15,10 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
             {
                 EtlPipelineId = command.EtlPipelineId,
                 Order = command.Order,
-                SourceField = command.SourceField,
+                SourceFields = command.SourceFields,
                 TargetField = command.TargetField,
-                TransformExpression = command.TransformExpression,
+                TransformRuleType = command.TransformRuleType,
+                TransformConfig = command.TransformConfig,
             };
         }
 
@@ -28,9 +29,10 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
             return new UpdateFieldMappingCommand(
                 dto.Id,
                 dto.Order,
-                dto.SourceField,
+                dto.SourceFields,
                 dto.TargetField,
-                dto.TransformExpression,
+                dto.TransformRuleType,
+                dto.TransformConfig,
                 dto.RowVersion
             );
         }

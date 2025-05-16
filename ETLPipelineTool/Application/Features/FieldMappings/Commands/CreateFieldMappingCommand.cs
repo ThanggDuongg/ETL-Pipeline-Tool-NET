@@ -3,15 +3,17 @@
     public class CreateFieldMappingCommand(
         Guid etlPipelineId,
         int order,
-        string sourceField,
+        ICollection<string> sourceFields,
         string targetField,
-        string? transformExpression
+        string transformRuleType,
+        string? transformConfig
     ) : IRequest<Guid>
     {
         public Guid EtlPipelineId { get; set; } = etlPipelineId;
         public int Order { get; set; } = order;
-        public string SourceField { get; set; } = sourceField;
+        public ICollection<string> SourceFields { get; set; } = sourceFields;
         public string TargetField { get; set; } = targetField;
-        public string? TransformExpression { get; set; } = transformExpression;
+        public string TransformRuleType { get; set; } = transformRuleType;
+        public string? TransformConfig { get; set; } = transformConfig;
     }
 }

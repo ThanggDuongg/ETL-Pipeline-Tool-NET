@@ -10,9 +10,10 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Projections
                 x.Id,
                 x.EtlPipelineId,
                 x.Order,
-                x.SourceField,
+                x.SourceFields,
                 x.TargetField,
-                x.TransformExpression,
+                x.TransformRuleType,
+                x.TransformConfig,
                 x.RowVersion
             );
         }

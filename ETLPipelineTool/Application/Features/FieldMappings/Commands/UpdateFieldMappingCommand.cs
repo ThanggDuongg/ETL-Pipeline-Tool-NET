@@ -3,17 +3,19 @@
     public class UpdateFieldMappingCommand(
         Guid id,
         int order,
-        string sourceField,
+        ICollection<string> sourceFields,
         string targetField,
-        string? transformExpression,
+        string transformRuleType,
+        string? transformConfig,
         byte[] rowVersion
     ) : IRequest<Unit>
     {
         public Guid Id { get; set; } = id;
         public int Order { get; set; } = order;
-        public string SourceField { get; set; } = sourceField;
+        public ICollection<string> SourceFields { get; set; } = sourceFields;
         public string TargetField { get; set; } = targetField;
-        public string? TransformExpression { get; set; } = transformExpression;
+        public string TransformRuleType { get; set; } = transformRuleType;
+        public string? TransformConfig { get; set; } = transformConfig;
         public byte[] RowVersion { get; set; } = rowVersion;
     }
 }

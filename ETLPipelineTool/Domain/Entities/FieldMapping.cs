@@ -1,14 +1,13 @@
-﻿using ETLPipelineTool.Domain.Entities.Abstracts;
-
-namespace ETLPipelineTool.Domain.Entities
+﻿namespace ETLPipelineTool.Domain.Entities
 {
     public class FieldMapping : BaseEntity
     {
         public Guid EtlPipelineId { get; set; }
         public EtlPipeline? EtlPipeline { get; set; }
         public int Order { get; set; } // Priority
-        public string SourceField { get; set; } = default!;
+        public ICollection<string> SourceFields { get; set; } = [];
         public string TargetField { get; set; } = default!;
-        public string? TransformExpression { get; set; } // E.g. "value == null ? \"N/A\" : value.Trim()"
+        public string TransformRuleType { get; set; } = "Identity"; // Concat, IfNull, Math
+        public string? TransformConfig { get; set; }
     }
 }

@@ -13,9 +13,10 @@ public class UpdateFieldMappingCommandHandler(
         var entity = await repository.GetByIdAsync(command.Id, cancellationToken);
 
         entity.Order = command.Order;
-        entity.SourceField = command.SourceField;
+        entity.SourceFields = command.SourceFields;
         entity.TargetField = command.TargetField;
-        entity.TransformExpression = command.TransformExpression;
+        entity.TransformRuleType = command.TransformRuleType;
+        entity.TransformConfig = command.TransformConfig;
         entity.RowVersion = command.RowVersion;
 
         await repository.UpdateAsync(entity, cancellationToken);

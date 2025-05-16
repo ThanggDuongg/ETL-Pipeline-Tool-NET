@@ -3,8 +3,9 @@
 public record UpdateFieldMappingDto(
     Guid Id,
     int Order,
-    string SourceField,
+    ICollection<string> SourceFields,
     string TargetField,
-    string? TransformExpression,
+    string TransformRuleType,
+    string? TransformConfig,
     byte[] RowVersion
 );

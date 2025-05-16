@@ -6,8 +6,9 @@
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Order).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.SourceField).NotEmpty();
+            RuleFor(x => x.SourceFields).NotEmpty();
             RuleFor(x => x.TargetField).NotEmpty();
+            RuleFor(x => x.TransformRuleType).NotEmpty();
             RuleFor(x => x.RowVersion).NotEmpty();
         }
     }
