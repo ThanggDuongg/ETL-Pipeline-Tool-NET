@@ -9,10 +9,7 @@ builder.Logging.AddSerilogService();
 builder.Services.AddAntiforgerySupport();
 builder.Services.AddControllersWithViews();
 builder
-    .Services.AddControllers(options =>
-    {
-        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-    })
+    .Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
