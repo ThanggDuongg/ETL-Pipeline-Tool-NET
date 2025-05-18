@@ -6,7 +6,11 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
         : GridQueryHandler<GetFieldMappingsQuery, FieldMapping, FieldMappingDataDto>
     {
         protected override List<string> ExpandColumns { get; set; } =
-            [nameof(FieldMappingDataDto.Id), nameof(FieldMappingDataDto.RowVersion)];
+            [
+                nameof(FieldMappingDataDto.Id),
+                nameof(FieldMappingDataDto.RowVersion),
+                $"{nameof(FieldMappingDataDto.EtlPipeline)}.{nameof(FieldMappingDataDto.EtlPipeline.Name)}",
+            ];
 
         protected override IQueryable<FieldMapping> GetBaseQuery(GetFieldMappingsQuery request)
         {

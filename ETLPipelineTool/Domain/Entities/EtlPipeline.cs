@@ -1,6 +1,4 @@
-﻿using ETLPipelineTool.Domain.Entities.Abstracts;
-
-namespace ETLPipelineTool.Domain.Entities
+﻿namespace ETLPipelineTool.Domain.Entities
 {
     public class EtlPipeline : BaseEntity
     {
@@ -12,10 +10,8 @@ namespace ETLPipelineTool.Domain.Entities
         public string TargetConfigurationJson { get; set; } = default!;
         public bool IsActive { get; set; } = true;
 
-        // TODO: Currently, set up as default with cascade strategy, considering applying soft-delete
         public ICollection<PipelineSchedule> PipelineSchedules { get; set; } = [];
         public ICollection<FieldMapping> FieldMappings { get; set; } = [];
-        public ICollection<TransformRule> TransformRules { get; set; } = [];
         public ICollection<EtlExecutionLog> EtlExecutionLogs { get; set; } = [];
     }
 }

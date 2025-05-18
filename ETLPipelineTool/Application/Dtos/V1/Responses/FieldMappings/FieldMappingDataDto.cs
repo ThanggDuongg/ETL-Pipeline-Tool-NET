@@ -1,37 +1,36 @@
-﻿namespace ETLPipelineTool.Application.Dtos.V1.Responses.FieldMappings
+﻿using ETLPipelineTool.Application.Dtos.V1.Responses.EtlPipelines;
+
+namespace ETLPipelineTool.Application.Dtos.V1.Responses.FieldMappings
 {
     public record FieldMappingDataDto
     {
         public Guid Id { get; init; }
-        public Guid EtlPipelineId { get; init; }
+        public EtlPipelineDataDto EtlPipeline { get; init; } = default!;
         public int Order { get; init; }
-        public ICollection<string> SourceFields { get; set; } = [];
+        public ICollection<FieldMappingSourceDataDto> FieldMappingSources { get; init; } = [];
         public string TargetField { get; init; } = default!;
-        public string TransformRuleType { get; set; } = "Identity";
-        public string? TransformConfig { get; set; }
+        public ICollection<TransformRuleDataDto> TransformRules { get; init; } = [];
         public byte[]? RowVersion { get; init; }
+
+        public FieldMappingDataDto() { }
 
         public FieldMappingDataDto(
             Guid id,
-            Guid etlPipelineId,
+            EtlPipelineDataDto etlPipeline,
             int order,
-            ICollection<string> sourceFields,
+            ICollection<FieldMappingSourceDataDto> fieldMappingSources,
             string targetField,
-            string transformRuleType,
-            string? transformConfig,
+            ICollection<TransformRuleDataDto> transformRules,
             byte[]? rowVersion
         )
         {
             Id = id;
-            EtlPipelineId = etlPipelineId;
+            EtlPipeline = etlPipeline;
             Order = order;
-            SourceFields = sourceFields;
+            FieldMappingSources = fieldMappingSources;
             TargetField = targetField;
-            TransformRuleType = transformRuleType;
-            TransformConfig = transformConfig;
+            TransformRules = transformRules;
             RowVersion = rowVersion;
         }
-
-        public FieldMappingDataDto() { }
     }
 }

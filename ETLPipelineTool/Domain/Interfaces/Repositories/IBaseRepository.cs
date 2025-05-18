@@ -5,6 +5,14 @@
     {
         Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
+        Task<TEntity> GetByIdAsync(
+            Guid id,
+            Expression<Func<TEntity, bool>>? predicate,
+            Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
+            bool isTracking = false,
+            CancellationToken cancellationToken = default
+        );
+
         Task<TDto> GetByIdAsync<TDto>(
             Guid id,
             Expression<Func<TEntity, bool>>? predicate,

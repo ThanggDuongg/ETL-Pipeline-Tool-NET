@@ -1,6 +1,4 @@
-﻿using ETLPipelineTool.Application.Features.FieldMappings.Mappings;
-
-namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
+﻿namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
 {
     public class CreateFieldMappingCommandHandler(
         IEtlContext context,

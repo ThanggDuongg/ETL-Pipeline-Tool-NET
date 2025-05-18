@@ -26,32 +26,72 @@
             where TEntity : BaseEntity
         {
             var parameter = Expression.Parameter(typeof(TEntity), "x");
+
+            var body = BuildInitExpression(typeof(TEntity), typeof(TDto), parameter, fields);
+            return Expression.Lambda<Func<TEntity, TDto>>(body, parameter);
+        }
+
+        private static Expression BuildInitExpression(
+            Type sourceType,
+            Type targetType,
+            Expression sourceExpression,
+            ICollection<string> fields
+        )
+        {
+            var constructor =
+                targetType.GetConstructor(Type.EmptyTypes)
+                ?? throw new InvalidOperationException(
+                    $"{targetType.Name} must have a parameterless constructor."
+                );
+
+            var groupedFields = fields
+                .Where(f => !string.IsNullOrWhiteSpace(f))
+                .Select(f => f.Trim())
+                .GroupBy(f => f.Split('.')[0])
+                .ToDictionary(g => g.Key, g => g.ToList());
+
             var bindings = new List<MemberBinding>();
 
-            foreach (var propName in fields)
+            foreach (var kvp in groupedFields)
             {
-                var entityProp = typeof(TEntity).GetProperty(propName);
-                var dtoProp = typeof(TDto).GetProperty(propName);
-                if (entityProp == null || dtoProp == null)
+                var propName = kvp.Key;
+                var subFields = kvp
+                    .Value.Select(f =>
+                    {
+                        var parts = f.Split('.', 2);
+                        return parts.Length > 1 ? parts[1] : null;
+                    })
+                    .Where(f => f != null)
+                    .Select(f => f!)
+                    .ToList();
+
+                var sourceProp = sourceType.GetProperty(propName);
+                var targetProp = targetType.GetProperty(propName);
+
+                if (sourceProp == null || targetProp == null)
                 {
                     continue;
                 }
 
-                var entityPropAccess = Expression.Property(parameter, entityProp);
-                var bind = Expression.Bind(dtoProp, entityPropAccess);
-                bindings.Add(bind);
+                Expression sourcePropAccess = Expression.Property(sourceExpression, sourceProp);
+
+                if (subFields.Count != 0)
+                {
+                    var nestedInit = BuildInitExpression(
+                        sourceProp.PropertyType,
+                        targetProp.PropertyType,
+                        sourcePropAccess,
+                        subFields
+                    );
+                    bindings.Add(Expression.Bind(targetProp, nestedInit));
+                }
+                else
+                {
+                    bindings.Add(Expression.Bind(targetProp, sourcePropAccess));
+                }
             }
 
-            var constructor =
-                typeof(TDto).GetConstructor(Type.EmptyTypes)
-                ?? throw new InvalidOperationException(
-                    $"{typeof(TDto).Name} must have a parameterless constructor"
-                );
-
-            // Workaround for "record class"(object-style record)
-            // Record must have at least empty constructor
-            var body = Expression.MemberInit(Expression.New(constructor), bindings);
-            return Expression.Lambda<Func<TEntity, TDto>>(body, parameter);
+            return Expression.MemberInit(Expression.New(constructor), bindings);
         }
     }
 }

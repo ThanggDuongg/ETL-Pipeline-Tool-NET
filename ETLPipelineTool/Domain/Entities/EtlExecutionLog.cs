@@ -1,6 +1,4 @@
-﻿using ETLPipelineTool.Domain.Entities.Abstracts;
-
-namespace ETLPipelineTool.Domain.Entities
+﻿namespace ETLPipelineTool.Domain.Entities
 {
     public class EtlExecutionLog : BaseEntity
     {

@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<PipelineSchedule> builder)
         {
-            builder.Property(x => x.CronExpression).HasUnicodeTextColumn(20).IsRequired();
+            builder.Property(x => x.CronExpression).HasUnicodeTextColumn(100).IsRequired();
             builder.Property(x => x.IsEnabled).HasDefaultValue(true).IsRequired();
         }
     }

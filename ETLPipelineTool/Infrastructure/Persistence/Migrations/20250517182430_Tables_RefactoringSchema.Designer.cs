@@ -4,6 +4,7 @@ using ETLPipelineTool.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(EtlContext))]
-    partial class EtlContextModelSnapshot : ModelSnapshot
+    [Migration("20250517182430_Tables_RefactoringSchema")]
+    partial class Tables_RefactoringSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

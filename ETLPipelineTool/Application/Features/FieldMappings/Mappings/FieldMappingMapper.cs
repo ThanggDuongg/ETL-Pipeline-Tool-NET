@@ -1,9 +1,25 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Requests.FieldMappings;
+using ETLPipelineTool.Application.Features.FieldMappings.Queries;
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
 {
     public static class FieldMappingMapper
     {
+        public static GetFieldMappingsQuery ToGetFieldMappingsQuery(GridFieldMappingsFilterDto dto)
+        {
+            return new GetFieldMappingsQuery(
+                dto.GridDataSourceDto.Take,
+                dto.GridDataSourceDto.Skip,
+                dto.GridDataSourceDto.PreloadAllData,
+                dto.GridDataSourceDto.SortFields
+            );
+        }
+
+        public static GetFieldMappingDetailQuery ToGetFieldMappingDetailQuery(Guid id)
+        {
+            return new GetFieldMappingDetailQuery(id);
+        }
+
         public static DeleteFieldMappingCommand ToDeleteFieldMappingCommand(Guid id)
         {
             return new DeleteFieldMappingCommand(id);
@@ -11,14 +27,29 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
 
         public static FieldMapping ToEntity(CreateFieldMappingCommand command)
         {
+            var dto = command.FieldMapping;
             return new FieldMapping
             {
-                EtlPipelineId = command.EtlPipelineId,
-                Order = command.Order,
-                SourceFields = command.SourceFields,
-                TargetField = command.TargetField,
-                TransformRuleType = command.TransformRuleType,
-                TransformConfig = command.TransformConfig,
+                EtlPipelineId = dto.EtlPipelineId,
+                Order = dto.Order,
+                SourceFields =
+                [
+                    .. dto.FieldMappingSources.Select(x => new FieldMappingSource()
+                    {
+                        Order = x.Order,
+                        SourceField = x.SourceField,
+                    }),
+                ],
+                TargetField = dto.TargetField,
+                TransformRules =
+                [
+                    .. dto.TransformRules.Select(x => new TransformRule
+                    {
+                        Sequence = x.Sequence,
+                        RuleType = x.RuleType,
+                        RuleConfigurationJson = x.RuleConfigurationJson,
+                    }),
+                ],
             };
         }
 
@@ -26,15 +57,14 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Mappings
             UpdateFieldMappingDto dto
         )
         {
-            return new UpdateFieldMappingCommand(
-                dto.Id,
-                dto.Order,
-                dto.SourceFields,
-                dto.TargetField,
-                dto.TransformRuleType,
-                dto.TransformConfig,
-                dto.RowVersion
-            );
+            return new UpdateFieldMappingCommand(dto);
+        }
+
+        public static CreateFieldMappingCommand ToCreateFieldMappingCommand(
+            CreateFieldMappingDto dto
+        )
+        {
+            return new CreateFieldMappingCommand(dto);
         }
     }
 }

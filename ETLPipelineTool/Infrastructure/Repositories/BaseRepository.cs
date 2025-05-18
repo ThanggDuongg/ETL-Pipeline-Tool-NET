@@ -49,6 +49,33 @@
             return data;
         }
 
+        public async Task<TEntity> GetByIdAsync(
+            Guid id,
+            Expression<Func<TEntity, bool>>? predicate,
+            Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
+            bool isTracking = false,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var query = etlContext.Get<TEntity>();
+
+            if (isTracking)
+            {
+                query = query.AsTracking();
+            }
+            if (include != null)
+            {
+                query = include(query);
+            }
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken)
+                ?? throw new NotFoundException<Guid>(typeof(TEntity), id);
+        }
+
         public IQueryable<TEntity> GetList(bool isTracking = false)
         {
             var query = etlContext.Get<TEntity>();

@@ -2,8 +2,8 @@
 {
     public enum TransformRuleType
     {
-        Script = 0,
-        Lookup = 1,
-        Custom = 2,
+        Identity,
+        Concat,
+        IfNull,
     }
 }
