@@ -10,8 +10,8 @@
             var command = new CreateEtlPipelineCommand(
                 "Etl Pipeline Name",
                 "Etl Pipeline Description",
-                PipelineSourceType.ExcelFile,
-                PipelineTargetType.SqlDatabase,
+                PipelineSourceType.MssqlDatabase,
+                PipelineTargetType.MssqlDatabase,
                 "Source Configuration Json",
                 "Target Configuration Json",
                 true

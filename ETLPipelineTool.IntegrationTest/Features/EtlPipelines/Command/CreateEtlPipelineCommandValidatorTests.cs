@@ -9,8 +9,8 @@
             "Description",
             "Source",
             "Target",
-            PipelineSourceType.SqlDatabase,
-            PipelineTargetType.SqlDatabase,
+            PipelineSourceType.MssqlDatabase,
+            PipelineTargetType.MssqlDatabase,
             true
         )]
         public async Task TestValidator(

@@ -14,7 +14,6 @@ namespace ETLPipelineTool.Api.Extensions
 
             // Extractors
             services.AddScoped<IExtractor, MssqlExtractor>();
-            services.AddScoped<IExtractor, CsvExtractor>();
             services.AddScoped<IExtractorFactory, ExtractorFactory>();
             services.Decorate<IExtractor, LoggingExtractorDecorator>();
 

@@ -8,6 +8,12 @@
         public DbSet<TransformRule> TransformRules => Set<TransformRule>();
         public DbSet<EtlExecutionLog> EtlExecutionLogs => Set<EtlExecutionLog>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+        public DbSet<TableSchema> TableSchemas => Set<TableSchema>();
+        public DbSet<ColumnSchema> ColumnSchemas => Set<ColumnSchema>();
+        public DbSet<ForeignKeySchema> ForeignKeySchemas => Set<ForeignKeySchema>();
+        public DbSet<ForeignKeyColumn> ForeignKeyColumns => Set<ForeignKeyColumn>();
+        public DbSet<ForeignKeyPrincipalColumn> ForeignKeyPrincipalColumns =>
+            Set<ForeignKeyPrincipalColumn>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

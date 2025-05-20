@@ -9,7 +9,6 @@ namespace ETLPipelineTool.Infrastructure.Extractors
             {
                 PipelineSourceType.MssqlDatabase =>
                     serviceProvider.GetRequiredService<MssqlExtractor>(),
-                PipelineSourceType.CsvFile => serviceProvider.GetRequiredService<CsvExtractor>(),
                 _ => throw new NotSupportedException($"Unsupported source {type}"),
             };
     }
