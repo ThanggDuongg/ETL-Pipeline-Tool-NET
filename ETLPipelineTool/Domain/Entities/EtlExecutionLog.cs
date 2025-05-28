@@ -8,5 +8,10 @@
         public DateTime? FinishedAt { get; set; }
         public EtlExecutionStatus Status { get; set; }
         public string? ErrorMessage { get; set; }
+        public int RecordsProcessed { get; set; }
+        public int RecordsSucceeded { get; set; }
+        public int RecordsFailed { get; set; }
+        public string ErrorDetails { get; set; } = default!;
+        public double ProcessingTimeMs { get; set; }
     }
 }
