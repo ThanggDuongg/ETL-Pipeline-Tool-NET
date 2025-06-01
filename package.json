@@ -1,0 +1,14 @@
+{
+  "name": "etl-pipeline-tool",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "format": "dotnet csharpier .",
+    "format:check": "dotnet csharpier --check ."
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  }
+}

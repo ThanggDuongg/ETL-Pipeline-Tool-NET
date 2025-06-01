@@ -248,6 +248,10 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
+# Husky
+.husky/_
+!.husky/_/husky.sh
+
 # Visual Studio 6 build log
 *.plg
 

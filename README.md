@@ -103,3 +103,35 @@ TBD
 - **Each service exposes its own OpenAPI contract**.
 
 ---
+
+## Code Formatting
+
+This project uses CSharpier for code formatting and Husky for pre-commit hooks.
+
+### Setup
+
+1. Install Node.js dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Install .NET tools:
+   ```bash
+   dotnet tool restore
+   ```
+
+### Manual Formatting
+
+To format all C# files:
+```bash
+npm run format
+```
+
+To check if files are formatted correctly:
+```bash
+npm run format:check
+```
+
+### Pre-commit Hook
+
+The pre-commit hook will automatically format your C# files before committing.
