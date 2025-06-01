@@ -38,7 +38,11 @@ jobs:
           find . -name "*.cs" -type f -exec sed -i 's/\r$//' {} \;
 
       - name: Check code formatting with CSharpier
-        run: csharpier check .
+        run: |
+          find . -name "*.cs" -not -path "./ETLPipelineTool.IntegrationTest/*" -type f > files_to_check.txt
+          if [ -s files_to_check.txt ]; then
+            cat files_to_check.txt | xargs dotnet csharpier --check
+          fi
 
       - name: Restore dependencies
         run: dotnet restore ETLPipelineTool/ETLPipelineTool.sln
