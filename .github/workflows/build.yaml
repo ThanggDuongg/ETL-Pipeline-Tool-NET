@@ -13,17 +13,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          # Ensure LF line endings
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
+      - name: Configure git line endings
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - name: Install CSharpier
-        run: dotnet tool install -g csharpier --version 1.0.2
+        run: dotnet tool install -g csharpier
 
       - name: Add dotnet tools to PATH
         run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Convert line endings to LF
+        run: |
+          find . -name "*.cs" -type f -exec sed -i 's/\r$//' {} \;
 
       - name: Check code formatting with CSharpier
         run: csharpier check .
