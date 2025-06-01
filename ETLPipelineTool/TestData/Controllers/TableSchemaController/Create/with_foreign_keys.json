@@ -1,0 +1,40 @@
+{
+  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "tableName": "Orders",
+  "columns": [
+    {
+      "columnName": "Id",
+      "dataType": "int",
+      "isPrimaryKey": true,
+      "isNullable": false
+    },
+    {
+      "columnName": "CustomerId",
+      "dataType": "int",
+      "isPrimaryKey": false,
+      "isNullable": false
+    },
+    {
+      "columnName": "OrderDate",
+      "dataType": "datetime",
+      "isPrimaryKey": false,
+      "isNullable": false
+    },
+    {
+      "columnName": "TotalAmount",
+      "dataType": "decimal",
+      "isPrimaryKey": false,
+      "isNullable": false,
+      "precision": 18,
+      "scale": 2
+    }
+  ],
+  "foreignKeys": [
+    {
+      "name": "FK_Orders_Customers",
+      "columnName": "CustomerId",
+      "referencedTableName": "Customers",
+      "referencedColumnName": "Id"
+    }
+  ]
+}

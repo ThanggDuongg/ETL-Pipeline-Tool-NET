@@ -2,48 +2,44 @@
 
 namespace ETLPipelineTool.Api.Middlewares
 {
-    public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+  public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+  {
+    public async Task Invoke(HttpContext context)
     {
-        public async Task Invoke(HttpContext context)
+      try
+      {
+        await next(context);
+      }
+      catch (Exception ex)
+      {
+        logger.LogError(ex, "Error: {Message}", ex.Message);
+
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+        if (ex is ModelValidationException validationException)
         {
-            try
-            {
-                await next(context);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error: {Message}", ex.Message);
+          context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-                if (ex is ModelValidationException validationException)
-                {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-                    var response = new ExceptionDataDto(ex.Message, validationException.Errors);
-                    await context.Response.WriteAsJsonAsync(response);
-                    return;
-                }
-                if (ex is DbUpdateConcurrencyException)
-                {
-                    context.Response.StatusCode = StatusCodes.Status409Conflict;
-                    await context.Response.WriteAsJsonAsync(new ExceptionDataDto("Data conflict"));
-                    return;
-                }
-                if (ex is BusinessException exception)
-                {
-                    context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
-                    await context.Response.WriteAsJsonAsync(
-                        new ExceptionDataDto(exception.Message)
-                    );
-                    return;
-                }
-
-                await context.Response.WriteAsJsonAsync(
-                    new { Message = "An unexpected error occurred." }
-                );
-            }
+          var response = new ExceptionDataDto(ex.Message, validationException.Errors);
+          await context.Response.WriteAsJsonAsync(response);
+          return;
         }
+        if (ex is DbUpdateConcurrencyException)
+        {
+          context.Response.StatusCode = StatusCodes.Status409Conflict;
+          await context.Response.WriteAsJsonAsync(new ExceptionDataDto("Data conflict"));
+          return;
+        }
+        if (ex is BusinessException exception)
+        {
+          context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+          await context.Response.WriteAsJsonAsync(new ExceptionDataDto(exception.Message));
+          return;
+        }
+
+        await context.Response.WriteAsJsonAsync(new { Message = "An unexpected error occurred." });
+      }
     }
+  }
 }

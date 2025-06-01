@@ -1,0 +1,27 @@
+{
+  "etlPipelineId": "fe00efb2-09b5-4a6e-a423-3593aa79fd51",
+  "targetField": "FullName",
+  "order": 1,
+  "fieldMappingSources": [
+    {
+      "sourceField": "FirstName",
+      "order": 1
+    },
+    {
+      "sourceField": "LastName",
+      "order": 2
+    }
+  ],
+  "transformRules": [
+    {
+      "sequence": 1,
+      "ruleType": 1,
+      "ruleConfigurationJson": "{\"separator\": \" \"}"
+    },
+    {
+      "sequence": 2,
+      "ruleType": 2,
+      "ruleConfigurationJson": "{}"
+    }
+  ]
+}

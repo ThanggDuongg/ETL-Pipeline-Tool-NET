@@ -1,0 +1,27 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "targetField": "CustomerName",
+  "order": 1,
+  "fieldMappingSources": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "sourceField": "Name",
+      "order": 1
+    }
+  ],
+  "transformRules": [
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "sequence": 1,
+      "ruleType": "Trim",
+      "ruleConfigurationJson": "{}"
+    },
+    {
+      "sequence": 2,
+      "ruleType": "ToUpper",
+      "ruleConfigurationJson": "{}"
+    }
+  ],
+  "rowVersion": "AAAAAAAAB9E="
+}

@@ -1,10 +1,10 @@
 ﻿namespace ETLPipelineTool.Application.Features.EtlPipelines.Queries
 {
-    public class GetEtlPipelineDetailQueryValidator : AbstractValidator<GetEtlPipelineDetailQuery>
+  public class GetEtlPipelineDetailQueryValidator : AbstractValidator<GetEtlPipelineDetailQuery>
+  {
+    public GetEtlPipelineDetailQueryValidator()
     {
-        public GetEtlPipelineDetailQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty();
-        }
+      RuleFor(x => x.Id).NotEmpty();
     }
+  }
 }

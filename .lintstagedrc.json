@@ -1,5 +1,5 @@
 {
-  "*.cs": [
-    "dotnet csharpier"
+  "ETLPipelineTool/**/*.cs": [
+    "dotnet csharpier format"
   ]
 }

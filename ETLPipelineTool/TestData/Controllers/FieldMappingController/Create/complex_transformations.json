@@ -1,0 +1,45 @@
+{
+  "etlPipelineId": "fe00efb2-09b5-4a6e-a423-3593aa79fd51",
+  "targetField": "FullAddress",
+  "order": 1,
+  "fieldMappingSources": [
+    {
+      "sourceField": "StreetAddress",
+      "order": 1
+    },
+    {
+      "sourceField": "City",
+      "order": 2
+    },
+    {
+      "sourceField": "State",
+      "order": 3
+    },
+    {
+      "sourceField": "ZipCode",
+      "order": 4
+    }
+  ],
+  "transformRules": [
+    {
+      "sequence": 1,
+      "ruleType": 0,
+      "ruleConfigurationJson": "{}"
+    },
+    {
+      "sequence": 2,
+      "ruleType": 1,
+      "ruleConfigurationJson": "{\"separator\": \", \"}"
+    },
+    {
+      "sequence": 3,
+      "ruleType": 0,
+      "ruleConfigurationJson": "{\"find\": \"  \", \"replace\": \" \"}"
+    },
+    {
+      "sequence": 4,
+      "ruleType": 1,
+      "ruleConfigurationJson": "{\"pattern\": \"[^a-zA-Z0-9, ]\", \"replacement\": \"\"}"
+    }
+  ]
+}

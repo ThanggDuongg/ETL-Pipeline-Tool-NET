@@ -1,0 +1,9 @@
+{
+  "name": "Invalid Source Type",
+  "description": "This pipeline has an invalid source type",
+  "sourceType": "UnknownType",
+  "targetType": "MssqlDatabase",
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\"}",
+  "isActive": true
+}

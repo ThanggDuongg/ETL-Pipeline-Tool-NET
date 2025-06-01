@@ -1,0 +1,27 @@
+{
+  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "tableName": "Customers",
+  "columns": [
+    {
+      "columnName": "Id",
+      "dataType": "int",
+      "isPrimaryKey": true,
+      "isNullable": false
+    },
+    {
+      "columnName": "Name",
+      "dataType": "nvarchar",
+      "isPrimaryKey": false,
+      "isNullable": false,
+      "maxLength": 100
+    },
+    {
+      "columnName": "Email",
+      "dataType": "nvarchar",
+      "isPrimaryKey": false,
+      "isNullable": true,
+      "maxLength": 255
+    }
+  ],
+  "foreignKeys": []
+}

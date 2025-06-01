@@ -1,4 +1,4 @@
 ﻿namespace ETLPipelineTool.Domain.Interfaces.Repositories
 {
-    public interface IEtlPipelineRepository : IBaseRepository<EtlPipeline> { }
+  public interface IEtlPipelineRepository : IBaseRepository<EtlPipeline> { }
 }

@@ -2,38 +2,38 @@
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
 {
-    public class CreateFieldMappingCommandValidator : AbstractValidator<CreateFieldMappingCommand>
+  public class CreateFieldMappingCommandValidator : AbstractValidator<CreateFieldMappingCommand>
+  {
+    public CreateFieldMappingCommandValidator()
     {
-        public CreateFieldMappingCommandValidator()
-        {
-            RuleFor(x => x.FieldMapping).NotNull();
-            RuleFor(x => x.FieldMapping.EtlPipelineId).NotEmpty();
-            RuleFor(x => x.FieldMapping.Order).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.FieldMapping.TargetField).NotEmpty();
-            RuleFor(x => x.FieldMapping.FieldMappingSources).NotNull();
-            RuleForEach(x => x.FieldMapping.FieldMappingSources)
-                .SetValidator(new CreateFieldMappingSourceValidator());
-            RuleForEach(x => x.FieldMapping.TransformRules)
-                .SetValidator(new CreateTransformRuleValidator());
-        }
+      RuleFor(x => x.FieldMapping).NotNull();
+      RuleFor(x => x.FieldMapping.EtlPipelineId).NotEmpty();
+      RuleFor(x => x.FieldMapping.Order).GreaterThanOrEqualTo(0);
+      RuleFor(x => x.FieldMapping.TargetField).NotEmpty();
+      RuleFor(x => x.FieldMapping.FieldMappingSources).NotNull();
+      RuleForEach(x => x.FieldMapping.FieldMappingSources)
+        .SetValidator(new CreateFieldMappingSourceValidator());
+      RuleForEach(x => x.FieldMapping.TransformRules)
+        .SetValidator(new CreateTransformRuleValidator());
     }
+  }
 
-    public class CreateFieldMappingSourceValidator : AbstractValidator<CreateFieldMappingSourceDto>
+  public class CreateFieldMappingSourceValidator : AbstractValidator<CreateFieldMappingSourceDto>
+  {
+    public CreateFieldMappingSourceValidator()
     {
-        public CreateFieldMappingSourceValidator()
-        {
-            RuleFor(x => x.Order).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.SourceField).NotEmpty();
-        }
+      RuleFor(x => x.Order).GreaterThanOrEqualTo(0);
+      RuleFor(x => x.SourceField).NotEmpty();
     }
+  }
 
-    public class CreateTransformRuleValidator : AbstractValidator<CreateTransformRuleDto>
+  public class CreateTransformRuleValidator : AbstractValidator<CreateTransformRuleDto>
+  {
+    public CreateTransformRuleValidator()
     {
-        public CreateTransformRuleValidator()
-        {
-            RuleFor(x => x.Sequence).GreaterThanOrEqualTo(0);
-            RuleFor(x => x.RuleType).NotEmpty();
-            RuleFor(x => x.RuleConfigurationJson).NotEmpty();
-        }
+      RuleFor(x => x.Sequence).GreaterThanOrEqualTo(0);
+      RuleFor(x => x.RuleType).NotNull();
+      RuleFor(x => x.RuleConfigurationJson).NotEmpty();
     }
+  }
 }

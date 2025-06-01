@@ -2,11 +2,11 @@
 
 namespace ETLPipelineTool.Infrastructure.Extractors.Interfaces
 {
-    public interface IExtractor
-    {
-        IAsyncEnumerable<TableData> ExtractAsync(
-            EtlPipeline etlPipeline,
-            CancellationToken cancellationToken = default
-        );
-    }
+  public interface IExtractor
+  {
+    IAsyncEnumerable<TableData> ExtractAsync(
+      EtlPipeline etlPipeline,
+      CancellationToken cancellationToken = default
+    );
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "name": "Existing Pipeline Name",
+  "description": "Existing description",
+  "sourceType": 0,
+  "targetType": 0,
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\"}",
+  "isActive": false,
+  "rowVersion": "AAAAAAAAB9E="
+}

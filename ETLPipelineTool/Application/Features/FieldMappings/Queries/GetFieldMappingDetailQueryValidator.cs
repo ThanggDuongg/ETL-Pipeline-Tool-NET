@@ -1,10 +1,10 @@
 namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
 {
-    public class GetFieldMappingDetailQueryValidator : AbstractValidator<GetFieldMappingDetailQuery>
+  public class GetFieldMappingDetailQueryValidator : AbstractValidator<GetFieldMappingDetailQuery>
+  {
+    public GetFieldMappingDetailQueryValidator()
     {
-        public GetFieldMappingDetailQueryValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty();
-        }
+      RuleFor(x => x.Id).NotEmpty();
     }
-} 
+  }
+}

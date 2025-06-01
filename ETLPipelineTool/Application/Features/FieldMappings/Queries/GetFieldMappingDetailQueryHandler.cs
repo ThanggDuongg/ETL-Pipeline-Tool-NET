@@ -2,21 +2,21 @@ using ETLPipelineTool.Application.Dtos.V1.Responses.FieldMappings;
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
 {
-    public class GetFieldMappingDetailQueryHandler(IFieldMappingRepository fieldMappingRepository)
-        : IRequestHandler<GetFieldMappingDetailQuery, FieldMappingDataDto>
+  public class GetFieldMappingDetailQueryHandler(IFieldMappingRepository fieldMappingRepository)
+    : IRequestHandler<GetFieldMappingDetailQuery, FieldMappingDataDto>
+  {
+    public async Task<FieldMappingDataDto> Handle(
+      GetFieldMappingDetailQuery request,
+      CancellationToken cancellationToken
+    )
     {
-        public async Task<FieldMappingDataDto> Handle(
-            GetFieldMappingDetailQuery request,
-            CancellationToken cancellationToken
-        )
-        {
-            var data = await fieldMappingRepository.GetByIdAsync(
-                request.Id,
-                null,
-                FieldMappingProjection.AsFieldMappingDataDto(),
-                cancellationToken
-            );
-            return data;
-        }
+      var data = await fieldMappingRepository.GetByIdAsync(
+        request.Id,
+        null,
+        FieldMappingProjection.AsFieldMappingDataDto(),
+        cancellationToken
+      );
+      return data;
     }
+  }
 }

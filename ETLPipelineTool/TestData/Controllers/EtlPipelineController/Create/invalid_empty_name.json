@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "description": "This pipeline has an empty name which should fail validation",
+  "sourceType": 0,
+  "targetType": 0,
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\"}",
+  "isActive": true
+}

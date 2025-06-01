@@ -1,0 +1,9 @@
+{
+  "name": "Complex Pipeline with Multiple Sources",
+  "description": "ETL pipeline that combines data from multiple sources",
+  "sourceType": 0,
+  "targetType": 0,
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\",\"tables\":[\"Customers\",\"Orders\",\"Products\"],\"query\":\"SELECT * FROM Customers c JOIN Orders o ON c.Id = o.CustomerId\"}",
+  "targetConfigurationJson": "{\"server\":\"postgres-server\",\"port\":5432,\"database\":\"analytics\",\"schema\":\"public\",\"tableName\":\"customer_orders\",\"createIfNotExists\":true}",
+  "isActive": true
+}

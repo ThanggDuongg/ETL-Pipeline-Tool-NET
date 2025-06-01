@@ -2,8 +2,8 @@
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
 {
-    public class CreateFieldMappingCommand(CreateFieldMappingDto fieldMapping) : IRequest<Guid>
-    {
-        public CreateFieldMappingDto FieldMapping { get; set; } = fieldMapping;
-    }
+  public class CreateFieldMappingCommand(CreateFieldMappingDto fieldMapping) : IRequest<Guid>
+  {
+    public CreateFieldMappingDto FieldMapping { get; set; } = fieldMapping;
+  }
 }

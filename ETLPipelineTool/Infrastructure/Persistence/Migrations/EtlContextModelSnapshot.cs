@@ -475,6 +475,9 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("EtlPipelineId")
                         .HasColumnType("uniqueidentifier");
 
@@ -494,6 +497,9 @@ namespace ETLPipelineTool.Infrastructure.Persistence.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

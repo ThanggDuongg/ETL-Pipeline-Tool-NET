@@ -1,0 +1,9 @@
+{
+  "name": "Basic Pipeline",
+  "description": "A simple ETL pipeline for testing",
+  "sourceType": 0,
+  "targetType": 0,
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\",\"username\":\"user\",\"password\":\"pass\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\",\"username\":\"user\",\"password\":\"pass\"}",
+  "isActive": true
+}

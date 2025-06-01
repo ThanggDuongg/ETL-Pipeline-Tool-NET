@@ -2,15 +2,15 @@
 
 namespace ETLPipelineTool.Api.Controllers.V1
 {
-    [ApiVersion(1.0)]
-    public class AntiforgeryController(IAntiforgery antiforgery) : BaseApiController
+  [ApiVersion(1.0)]
+  public class AntiforgeryController(IAntiforgery antiforgery) : BaseApiController
+  {
+    [HttpGet()]
+    [ProducesResponseType(typeof(AntiforgeryTokenDataDto), StatusCodes.Status200OK)]
+    public IActionResult GetAntiforgeryToken()
     {
-        [HttpGet()]
-        [ProducesResponseType(typeof(AntiforgeryTokenDataDto), StatusCodes.Status200OK)]
-        public IActionResult GetAntiforgeryToken()
-        {
-            var tokens = antiforgery.GetAndStoreTokens(HttpContext);
-            return Ok(new AntiforgeryTokenDataDto(tokens.RequestToken!, tokens.HeaderName!));
-        }
+      var tokens = antiforgery.GetAndStoreTokens(HttpContext);
+      return Ok(new AntiforgeryTokenDataDto(tokens.RequestToken!, tokens.HeaderName!));
     }
+  }
 }

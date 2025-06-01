@@ -1,11 +1,11 @@
 ﻿namespace ETLPipelineTool.Infrastructure.Persistence.EntityConfigurations
 {
-    public class PipelineScheduleEntityConfig : IEntityTypeConfiguration<PipelineSchedule>
+  public class PipelineScheduleEntityConfig : IEntityTypeConfiguration<PipelineSchedule>
+  {
+    public void Configure(EntityTypeBuilder<PipelineSchedule> builder)
     {
-        public void Configure(EntityTypeBuilder<PipelineSchedule> builder)
-        {
-            builder.Property(x => x.CronExpression).HasUnicodeTextColumn(100).IsRequired();
-            builder.Property(x => x.IsEnabled).HasDefaultValue(true).IsRequired();
-        }
+      builder.Property(x => x.CronExpression).HasUnicodeTextColumn(100).IsRequired();
+      builder.Property(x => x.IsEnabled).HasDefaultValue(true).IsRequired();
     }
+  }
 }

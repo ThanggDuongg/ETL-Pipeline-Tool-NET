@@ -1,0 +1,51 @@
+{
+  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "tableName": "ProductDetails",
+  "columns": [
+    {
+      "columnName": "Id",
+      "dataType": "uniqueidentifier",
+      "isPrimaryKey": true,
+      "isNullable": false
+    },
+    {
+      "columnName": "Name",
+      "dataType": "nvarchar",
+      "isPrimaryKey": false,
+      "isNullable": false,
+      "maxLength": 200
+    },
+    {
+      "columnName": "Description",
+      "dataType": "ntext",
+      "isPrimaryKey": false,
+      "isNullable": true
+    },
+    {
+      "columnName": "Price",
+      "dataType": "money",
+      "isPrimaryKey": false,
+      "isNullable": false
+    },
+    {
+      "columnName": "CreatedDate",
+      "dataType": "datetimeoffset",
+      "isPrimaryKey": false,
+      "isNullable": false
+    },
+    {
+      "columnName": "IsAvailable",
+      "dataType": "bit",
+      "isPrimaryKey": false,
+      "isNullable": false
+    },
+    {
+      "columnName": "ImageData",
+      "dataType": "varbinary",
+      "isPrimaryKey": false,
+      "isNullable": true,
+      "maxLength": -1
+    }
+  ],
+  "foreignKeys": []
+}

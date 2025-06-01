@@ -1,0 +1,18 @@
+{
+  "etlPipelineId": "fe00efb2-09b5-4a6e-a423-3593aa79fd51",
+  "targetField": "CustomerName",
+  "order": 1,
+  "fieldMappingSources": [
+    {
+      "sourceField": "Name",
+      "order": 1
+    }
+  ],
+  "transformRules": [
+    {
+      "sequence": 1,
+      "ruleType": 2,
+      "ruleConfigurationJson": "{}"
+    }
+  ]
+}

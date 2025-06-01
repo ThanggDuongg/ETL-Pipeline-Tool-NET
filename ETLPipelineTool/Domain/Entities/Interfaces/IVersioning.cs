@@ -1,7 +1,7 @@
 ﻿namespace ETLPipelineTool.Domain.Entities.Interfaces
 {
-    public interface IVersioning
-    {
-        byte[]? RowVersion { get; set; }
-    }
+  public interface IVersioning
+  {
+    byte[]? RowVersion { get; set; }
+  }
 }

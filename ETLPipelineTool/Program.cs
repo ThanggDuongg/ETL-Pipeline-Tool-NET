@@ -9,31 +9,31 @@ builder.Logging.AddSerilogService();
 builder.Services.AddAntiforgerySupport();
 builder.Services.AddControllersWithViews();
 builder
-    .Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-    });
+  .Services.AddControllers()
+  .AddJsonOptions(options =>
+  {
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+  });
 
 builder
-    .Services.AddValidationConfiguration()
-    .AddAppSettingsConfiguration(builder.Configuration)
-    .AddProblemDetails()
-    .AddHttpContextAccessor()
-    .AddInfrastructureServices()
-    .AddCorsPolicy()
-    .AddEndpointsApiExplorer()
-    .AddApiVersioningSupport()
-    .AddApiDocumentSupport()
-    .AddApplicationHealthChecks()
-    .AddApplicationServices()
-    .AddMiniProfilerSupport()
-    .AddRouting(options =>
-    {
-        options.LowercaseUrls = true;
-        options.LowercaseQueryStrings = true;
-    })
-    .AddDbContextConfiguration(builder.Configuration);
+  .Services.AddValidationConfiguration()
+  .AddAppSettingsConfiguration(builder.Configuration)
+  .AddProblemDetails()
+  .AddHttpContextAccessor()
+  .AddInfrastructureServices()
+  .AddCorsPolicy()
+  .AddEndpointsApiExplorer()
+  .AddApiVersioningSupport()
+  .AddApiDocumentSupport()
+  .AddApplicationHealthChecks()
+  .AddApplicationServices()
+  .AddMiniProfilerSupport()
+  .AddRouting(options =>
+  {
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+  })
+  .AddDbContextConfiguration(builder.Configuration);
 
 var app = builder.Build();
 

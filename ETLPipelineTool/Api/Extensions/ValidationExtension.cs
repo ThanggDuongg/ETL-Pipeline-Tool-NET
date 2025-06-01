@@ -1,23 +1,21 @@
 ﻿namespace ETLPipelineTool.Api.Extensions
 {
-    public static class ValidationExtension
+  public static class ValidationExtension
+  {
+    public static IServiceCollection AddValidationConfiguration(this IServiceCollection services)
     {
-        public static IServiceCollection AddValidationConfiguration(
-            this IServiceCollection services
-        )
+      services
+        .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+        .Configure<ApiBehaviorOptions>(options =>
         {
-            services
-                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
-                .Configure<ApiBehaviorOptions>(options =>
-                {
-                    options.SuppressModelStateInvalidFilter = true; // Bypass validate model state
-                    //options.InvalidModelStateResponseFactory = (context) =>
-                    //{
-                    //    return new BadRequestObjectResult("Invalid request");
-                    //};
-                });
+          options.SuppressModelStateInvalidFilter = true; // Bypass validate model state
+          //options.InvalidModelStateResponseFactory = (context) =>
+          //{
+          //    return new BadRequestObjectResult("Invalid request");
+          //};
+        });
 
-            return services;
-        }
+      return services;
     }
+  }
 }

@@ -1,0 +1,31 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "tableName": "CustomersUpdated",
+  "columns": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "columnName": "Id",
+      "dataType": "int",
+      "isPrimaryKey": true,
+      "isNullable": false
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "columnName": "FullName",
+      "dataType": "nvarchar",
+      "isPrimaryKey": false,
+      "isNullable": false,
+      "maxLength": 150
+    },
+    {
+      "columnName": "PhoneNumber",
+      "dataType": "nvarchar",
+      "isPrimaryKey": false,
+      "isNullable": true,
+      "maxLength": 20
+    }
+  ],
+  "foreignKeys": [],
+  "rowVersion": "AAAAAAAAB9E="
+}

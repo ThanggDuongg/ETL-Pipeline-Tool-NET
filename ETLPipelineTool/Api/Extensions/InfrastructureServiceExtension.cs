@@ -4,20 +4,28 @@ using ETLPipelineTool.Infrastructure.Extractors.Interfaces;
 
 namespace ETLPipelineTool.Api.Extensions
 {
-    public static class InfrastructureServiceExtension
+  public static class InfrastructureServiceExtension
+  {
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
-        {
-            services.AddScoped<IEtlPipelineRepository, EtlPipelineRepository>();
-            services.AddScoped<IFieldMappingRepository, FieldMappingRepository>();
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+      // Entity-specific repositories
+      services.AddScoped<IEtlPipelineRepository, EtlPipelineRepository>();
+      services.AddScoped<IFieldMappingRepository, FieldMappingRepository>();
+      services.AddScoped<IEtlExecutionLogRepository, EtlExecutionLogRepository>();
+      services.AddScoped<ITableSchemaRepository, TableSchemaRepository>();
+      services.AddScoped<IPipelineScheduleRepository, PipelineScheduleRepository>();
+      services.AddScoped<ITransformRuleRepository, TransformRuleRepository>();
+      services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
-            // Extractors
-            services.AddScoped<IExtractor, MssqlExtractor>();
-            services.AddScoped<IExtractorFactory, ExtractorFactory>();
-            services.Decorate<IExtractor, LoggingExtractorDecorator>();
+      // Generic repository
+      services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-            return services;
-        }
+      // Extractors
+      services.AddScoped<IExtractor, MssqlExtractor>();
+      services.AddScoped<IExtractorFactory, ExtractorFactory>();
+      services.Decorate<IExtractor, LoggingExtractorDecorator>();
+
+      return services;
     }
+  }
 }

@@ -1,39 +1,39 @@
 ﻿namespace ETLPipelineTool.Application.Behaviors
 {
-    public class PerformanceBehavior<TRequest, TResponse>(ILogger<TRequest> logger)
-        : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+  public class PerformanceBehavior<TRequest, TResponse>(ILogger<TRequest> logger)
+    : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+  {
+    private readonly Stopwatch _timer = new();
+    private readonly ILogger<TRequest> _logger = logger;
+
+    public async Task<TResponse> Handle(
+      TRequest request,
+      RequestHandlerDelegate<TResponse> next,
+      CancellationToken cancellationToken
+    )
     {
-        private readonly Stopwatch _timer = new();
-        private readonly ILogger<TRequest> _logger = logger;
+      _timer.Start();
 
-        public async Task<TResponse> Handle(
-            TRequest request,
-            RequestHandlerDelegate<TResponse> next,
-            CancellationToken cancellationToken
-        )
-        {
-            _timer.Start();
+      var response = await next(cancellationToken);
 
-            var response = await next(cancellationToken);
+      _timer.Stop();
 
-            _timer.Stop();
+      var elapsedMilliseconds = _timer.ElapsedMilliseconds;
 
-            var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+      if (elapsedMilliseconds > 500)
+      {
+        var requestName = typeof(TRequest).Name;
 
-            if (elapsedMilliseconds > 500)
-            {
-                var requestName = typeof(TRequest).Name;
+        _logger.LogWarning(
+          "ETL Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+          requestName,
+          elapsedMilliseconds,
+          request
+        );
+      }
 
-                _logger.LogWarning(
-                    "ETL Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
-                    requestName,
-                    elapsedMilliseconds,
-                    request
-                );
-            }
-
-            return response;
-        }
+      return response;
     }
+  }
 }

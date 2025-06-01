@@ -1,34 +1,34 @@
 ﻿namespace ETLPipelineTool.Domain.Interfaces.Repositories
 {
-    public interface IBaseRepository<TEntity>
-        where TEntity : class
-    {
-        Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+  public interface IBaseRepository<TEntity>
+    where TEntity : class
+  {
+    Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-        Task<TEntity> GetByIdAsync(
-            Guid id,
-            Expression<Func<TEntity, bool>>? predicate,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
-            bool isTracking = false,
-            CancellationToken cancellationToken = default
-        );
+    Task<TEntity> GetByIdAsync(
+      Guid id,
+      Expression<Func<TEntity, bool>>? predicate,
+      Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
+      bool isTracking = false,
+      CancellationToken cancellationToken = default
+    );
 
-        Task<TDto> GetByIdAsync<TDto>(
-            Guid id,
-            Expression<Func<TEntity, bool>>? predicate,
-            Expression<Func<TEntity, TDto>> selector,
-            CancellationToken cancellationToken = default
-        )
-            where TDto : class;
+    Task<TDto> GetByIdAsync<TDto>(
+      Guid id,
+      Expression<Func<TEntity, bool>>? predicate,
+      Expression<Func<TEntity, TDto>> selector,
+      CancellationToken cancellationToken = default
+    )
+      where TDto : class;
 
-        IQueryable<TEntity> GetList(bool isTracking = false);
+    IQueryable<TEntity> GetList(bool isTracking = false);
 
-        Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-        Task DeleteAsync(TEntity entity);
+    Task DeleteAsync(TEntity entity);
 
-        Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    }
+    Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
+  }
 }

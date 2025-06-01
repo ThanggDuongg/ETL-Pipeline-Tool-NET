@@ -1,6 +1,227 @@
 @ETLPipelineTool_HostAddress = http://localhost:5187
+@apiVersion = v1
 
-GET {{ETLPipelineTool_HostAddress}}/weatherforecast/
+### Get Antiforgery Token
+# @name getToken
+GET {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/antiforgery
 Accept: application/json
 
-###
+### Print the response for debugging
+@tokenResponse = {{getToken.response.body}}
+
+### Store token from the response - hardcoded approach
+@csrfToken = {{getToken.response.body.$.token}}
+@csrfHeaderName = X-XSRF-TOKEN
+
+### EtlPipeline - Create (Success)
+# @name createPipeline
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "name": "Test Pipeline {{$timestamp}}",
+  "description": "Test Pipeline Description",
+  "pipelineSourceType": "0",
+  "pipelineTargetType": "0",
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\"}",
+  "isActive": true
+}
+
+### Store pipeline ID from response
+@pipelineId = {{createPipeline.response.body.$}}
+
+### EtlPipeline - Create (Validation Error - Empty Name)
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "name": "",
+  "description": "Test Pipeline Description",
+  "pipelineSourceType": "MssqlDatabase",
+  "pipelineTargetType": "MssqlDatabase",
+  "sourceConfigurationJson": "{\"server\":\"source-server\",\"database\":\"source-db\"}",
+  "targetConfigurationJson": "{\"server\":\"target-server\",\"database\":\"target-db\"}",
+  "isActive": true
+}
+
+### EtlPipeline - Get by ID
+# @name getPipeline
+GET {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline/{{pipelineId}}
+Accept: application/json
+
+### EtlPipeline - Update
+PUT {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "id": "{{pipelineId}}",
+  "name": "Updated Pipeline Name {{$timestamp}}",
+  "description": "Updated Pipeline Description",
+  "pipelineSourceType": "MssqlDatabase",
+  "pipelineTargetType": "MssqlDatabase",
+  "sourceConfigurationJson": "{\"server\":\"updated-source\",\"database\":\"updated-db\"}",
+  "targetConfigurationJson": "{\"server\":\"updated-target\",\"database\":\"updated-db\"}",
+  "isActive": true,
+  "rowVersion": "{{getPipeline.response.body.rowVersion}}"
+}
+
+### Create Table Schema
+# @name createTableSchema
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/tableschema
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "tableSchema": {
+    "etlPipelineId": "{{pipelineId}}",
+    "tableName": "TestTable_{{$timestamp}}",
+    "columns": [
+      {
+        "columnName": "Id",
+        "dataType": "int",
+        "isPrimaryKey": true,
+        "isNullable": false
+      },
+      {
+        "columnName": "Name",
+        "dataType": "nvarchar",
+        "isPrimaryKey": false,
+        "isNullable": false,
+        "maxLength": 100
+      }
+    ],
+    "foreignKeys": []
+  }
+}
+
+### Store table schema ID
+@tableSchemaId = {{createTableSchema.response.body.$}}
+
+### Create Field Mapping
+# @name createFieldMapping
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/fieldmapping
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "fieldMapping": {
+    "etlPipelineId": "{{pipelineId}}",
+    "targetField": "Name",
+    "order": 1,
+    "fieldMappingSources": [
+      {
+        "sourceField": "SourceName",
+        "order": 1
+      }
+    ],
+    "transformRules": [
+      {
+        "sequence": 1,
+        "ruleType": "Trim",
+        "ruleConfigurationJson": "{}"
+      }
+    ]
+  }
+}
+
+### Store field mapping ID
+@fieldMappingId = {{createFieldMapping.response.body.$}}
+
+### Create Pipeline Schedule
+# @name createSchedule
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/pipelineschedule
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "etlPipelineId": "{{pipelineId}}",
+  "cronExpression": "0 0 * * *",
+  "isActive": true,
+  "startDate": "{{$datetime iso8601}}",
+  "endDate": "{{$datetime 'P1Y' iso8601}}"
+}
+
+### Store schedule ID
+@scheduleId = {{createSchedule.response.body.$}}
+
+### EtlPipeline - Grid Query (All)
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline/grid
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "page": 1,
+  "pageSize": 10,
+  "sortField": "name",
+  "sortDirection": "asc",
+  "filters": []
+}
+
+### EtlPipeline - Grid Query (With Filter)
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline/grid
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "page": 1,
+  "pageSize": 10,
+  "sortField": "name",
+  "sortDirection": "asc",
+  "filters": [
+    {
+      "field": "name",
+      "operator": "contains",
+      "value": "Test"
+    },
+    {
+      "field": "isActive",
+      "operator": "equals",
+      "value": true
+    }
+  ]
+}
+
+### Get Field Mapping by ID
+GET {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/fieldmapping/{{fieldMappingId}}
+Accept: application/json
+
+### Get Table Schema by ID
+GET {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/tableschema/{{tableSchemaId}}
+Accept: application/json
+
+### Get Pipeline Schedule by ID
+GET {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/pipelineschedule/{{scheduleId}}
+Accept: application/json
+
+### AuditLog - Grid Query
+POST {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/auditlog/grid
+Content-Type: application/json
+{{csrfHeaderName}}: {{csrfToken}}
+
+{
+  "page": 1,
+  "pageSize": 10,
+  "sortField": "createdOn",
+  "sortDirection": "desc",
+  "filters": []
+}
+
+### Delete Field Mapping
+DELETE {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/fieldmapping/{{fieldMappingId}}
+{{csrfHeaderName}}: {{csrfToken}}
+
+### Delete Table Schema
+DELETE {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/tableschema/{{tableSchemaId}}
+{{csrfHeaderName}}: {{csrfToken}}
+
+### Delete Pipeline Schedule
+DELETE {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/pipelineschedule/{{scheduleId}}
+{{csrfHeaderName}}: {{csrfToken}}
+
+### EtlPipeline - Delete
+DELETE {{ETLPipelineTool_HostAddress}}/api/{{apiVersion}}/etlpipeline/{{pipelineId}}
+{{csrfHeaderName}}: {{csrfToken}}
