@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "format": "dotnet csharpier format .",
-    "format:check": "dotnet csharpier --check ."
+    "format": "dotnet csharpier format $(find . -name '*.cs' -not -path './ETLPipelineTool.IntegrationTest/*')",
+    "format:check": "dotnet csharpier --check $(find . -name '*.cs' -not -path './ETLPipelineTool.IntegrationTest/*')"
   },
   "devDependencies": {
     "husky": "^8.0.3",

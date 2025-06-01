@@ -1,5 +1,6 @@
 {
   "*.cs": [
     "dotnet csharpier format"
-  ]
+  ],
+  "!ETLPipelineTool.IntegrationTest/**/*.cs": []
 }
