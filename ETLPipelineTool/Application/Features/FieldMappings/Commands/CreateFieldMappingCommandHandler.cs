@@ -1,4 +1,6 @@
-﻿namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
+﻿using ETLPipelineTool.Application.Services;
+
+namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
 {
   public class CreateFieldMappingCommandHandler(
     IEtlContext context,
@@ -10,7 +12,11 @@
       CancellationToken cancellationToken
     )
     {
-      var entity = FieldMappingMapper.ToEntity(command);
+      // Workaround: Force order/sequence
+      FieldMappingOrderService.NormalizeSourceFieldOrders(command.FieldMapping.FieldMappingSources);
+      FieldMappingOrderService.NormalizeTransformRuleSequences(command.FieldMapping.TransformRules);
+
+      FieldMapping entity = FieldMappingMapper.ToEntity(command);
 
       await fieldMappingRepository.AddAsync(entity, cancellationToken);
       await context.SaveChangesAsync(cancellationToken);

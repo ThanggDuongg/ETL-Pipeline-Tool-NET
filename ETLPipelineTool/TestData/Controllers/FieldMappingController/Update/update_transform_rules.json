@@ -1,27 +1,26 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
-  "targetField": "CustomerName",
+  "id": "0301efb2-6206-43e9-96a9-15edb3c6ff2c",
+  "targetField": "Customer_Name",
   "order": 1,
   "fieldMappingSources": [
     {
-      "id": "00000000-0000-0000-0000-000000000001",
-      "sourceField": "Name",
-      "order": 1
+      "sourceField": "FullName",
+      "order": 0
     }
   ],
   "transformRules": [
     {
-      "id": "00000000-0000-0000-0000-000000000002",
-      "sequence": 1,
-      "ruleType": "Trim",
-      "ruleConfigurationJson": "{}"
+      "id": "0301efb2-6206-4fcf-b389-48ffb7b09a24",
+      "sequence": 0,
+      "ruleType": 1,
+      "ruleConfigurationJson": "{}",
+      "rowVersion": "AAAAAAAANtY="
     },
     {
-      "sequence": 2,
-      "ruleType": "ToUpper",
+      "sequence": 1,
+      "ruleType": 2,
       "ruleConfigurationJson": "{}"
     }
   ],
-  "rowVersion": "AAAAAAAAB9E="
+  "rowVersion": "AAAAAAAANtI="
 }

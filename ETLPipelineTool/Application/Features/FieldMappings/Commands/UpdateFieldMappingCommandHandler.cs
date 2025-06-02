@@ -1,4 +1,5 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Requests.FieldMappings;
+using ETLPipelineTool.Application.Services;
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Commands;
 
@@ -12,8 +13,13 @@ public class UpdateFieldMappingCommandHandler(
     CancellationToken cancellationToken
   )
   {
-    var fieldMappingDto = command.FieldMapping;
-    var entity = await repository.GetByIdAsync(
+    UpdateFieldMappingDto fieldMappingDto = command.FieldMapping;
+
+    // Workaround: Force order/sequence
+    FieldMappingOrderService.NormalizeSourceFieldOrders(fieldMappingDto.FieldMappingSources);
+    FieldMappingOrderService.NormalizeTransformRuleSequences(fieldMappingDto.TransformRules);
+
+    FieldMapping entity = await repository.GetByIdAsync(
       fieldMappingDto.Id,
       null,
       f => f.Include(x => x.SourceFields).Include(x => x.TransformRules),
@@ -28,6 +34,9 @@ public class UpdateFieldMappingCommandHandler(
     UpdateSourceFields(entity, fieldMappingDto);
     UpdateTransformRules(entity, fieldMappingDto);
 
+    FieldMappingOrderService.NormalizeSourceFieldOrders(entity.SourceFields);
+    FieldMappingOrderService.NormalizeTransformRuleSequences(entity.TransformRules);
+
     await context.SaveChangesAsync(cancellationToken);
 
     return Unit.Value;
@@ -35,9 +44,9 @@ public class UpdateFieldMappingCommandHandler(
 
   private static void UpdateTransformRules(FieldMapping entity, UpdateFieldMappingDto dto)
   {
-    var updatedRuleIds = dto.TransformRules.Select(x => x.Id).ToHashSet();
+    HashSet<Guid?> updatedRuleIds = dto.TransformRules.Select(x => x.Id).ToHashSet();
 
-    foreach (var existing in entity.TransformRules.ToList())
+    foreach (TransformRule? existing in entity.TransformRules.ToList())
     {
       if (!updatedRuleIds.Contains(existing.Id))
       {
@@ -45,9 +54,9 @@ public class UpdateFieldMappingCommandHandler(
       }
     }
 
-    foreach (var ruleDto in dto.TransformRules)
+    foreach (Dtos.V1.Requests.TransformRules.UpdateTransformRuleDto ruleDto in dto.TransformRules)
     {
-      var existing = entity.TransformRules.SingleOrDefault(x => x.Id == ruleDto.Id);
+      TransformRule? existing = entity.TransformRules.SingleOrDefault(x => x.Id == ruleDto.Id);
       if (existing != null)
       {
         existing.Sequence = ruleDto.Sequence;
@@ -72,9 +81,9 @@ public class UpdateFieldMappingCommandHandler(
 
   private static void UpdateSourceFields(FieldMapping entity, UpdateFieldMappingDto dto)
   {
-    var updatedSourceIds = dto.FieldMappingSources.Select(x => x.Id).ToHashSet();
+    HashSet<Guid?> updatedSourceIds = dto.FieldMappingSources.Select(x => x.Id).ToHashSet();
 
-    foreach (var existing in entity.SourceFields.ToList())
+    foreach (FieldMappingSource? existing in entity.SourceFields.ToList())
     {
       if (!updatedSourceIds.Contains(existing.Id))
       {
@@ -82,9 +91,9 @@ public class UpdateFieldMappingCommandHandler(
       }
     }
 
-    foreach (var sourceDto in dto.FieldMappingSources)
+    foreach (UpdateFieldMappingSourceDto sourceDto in dto.FieldMappingSources)
     {
-      var existing = entity.SourceFields.SingleOrDefault(x => x.Id == sourceDto.Id);
+      FieldMappingSource? existing = entity.SourceFields.SingleOrDefault(x => x.Id == sourceDto.Id);
       if (existing != null)
       {
         existing.Order = sourceDto.Order;
