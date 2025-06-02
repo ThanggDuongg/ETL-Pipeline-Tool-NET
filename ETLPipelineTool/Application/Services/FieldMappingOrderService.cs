@@ -18,8 +18,8 @@ namespace ETLPipelineTool.Application.Services
       return
       [
         .. sources
-          .OrderBy(s => s.Order)
-          .Select(source => new CreateFieldMappingSourceDto(order++, source.SourceField)),
+          .OrderBy(x => x.Order)
+          .Select(x => new CreateFieldMappingSourceDto(order++, x.SourceField)),
       ];
     }
 
@@ -36,13 +36,8 @@ namespace ETLPipelineTool.Application.Services
       return
       [
         .. sources
-          .OrderBy(s => s.Order)
-          .Select(source => new UpdateFieldMappingSourceDto(
-            source.Id,
-            order++,
-            source.SourceField,
-            source.RowVersion
-          )),
+          .OrderBy(x => x.Order)
+          .Select(x => new UpdateFieldMappingSourceDto(x.Id, order++, x.SourceField, x.RowVersion)),
       ];
     }
 
@@ -54,7 +49,7 @@ namespace ETLPipelineTool.Application.Services
       }
 
       int order = 0;
-      foreach (FieldMappingSource? source in sources.OrderBy(s => s.Order))
+      foreach (var source in sources.OrderBy(x => x.Order))
       {
         source.Order = order++;
       }
@@ -73,12 +68,8 @@ namespace ETLPipelineTool.Application.Services
       return
       [
         .. rules
-          .OrderBy(r => r.Sequence)
-          .Select(rule => new CreateTransformRuleDto(
-            sequence++,
-            rule.RuleType,
-            rule.RuleConfigurationJson
-          )),
+          .OrderBy(x => x.Sequence)
+          .Select(x => new CreateTransformRuleDto(sequence++, x.RuleType, x.RuleConfigurationJson)),
       ];
     }
 
@@ -95,13 +86,13 @@ namespace ETLPipelineTool.Application.Services
       return
       [
         .. rules
-          .OrderBy(r => r.Sequence)
-          .Select(rule => new UpdateTransformRuleDto(
-            rule.Id,
+          .OrderBy(x => x.Sequence)
+          .Select(x => new UpdateTransformRuleDto(
+            x.Id,
             sequence++,
-            rule.RuleType,
-            rule.RuleConfigurationJson,
-            rule.RowVersion
+            x.RuleType,
+            x.RuleConfigurationJson,
+            x.RowVersion
           )),
       ];
     }
@@ -114,7 +105,7 @@ namespace ETLPipelineTool.Application.Services
       }
 
       int sequence = 0;
-      foreach (TransformRule? rule in rules.OrderBy(r => r.Sequence))
+      foreach (var rule in rules.OrderBy(x => x.Sequence))
       {
         rule.Sequence = sequence++;
       }

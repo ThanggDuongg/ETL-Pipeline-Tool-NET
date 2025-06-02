@@ -2,24 +2,16 @@ using ETLPipelineTool.Application.Dtos.V1.Requests.TableSchemas;
 
 namespace ETLPipelineTool.Application.Features.TableSchemas.Commands;
 
-public class UpdateTableSchemaCommandHandler : IRequestHandler<UpdateTableSchemaCommand, Unit>
+public class UpdateTableSchemaCommandHandler(ITableSchemaRepository repository, IEtlContext context)
+  : IRequestHandler<UpdateTableSchemaCommand, Unit>
 {
-  private readonly ITableSchemaRepository _repository;
-  private readonly IEtlContext _context;
-
-  public UpdateTableSchemaCommandHandler(ITableSchemaRepository repository, IEtlContext context)
-  {
-    _repository = repository;
-    _context = context;
-  }
-
   public async Task<Unit> Handle(
     UpdateTableSchemaCommand command,
     CancellationToken cancellationToken
   )
   {
     var dto = command.TableSchema;
-    var entity = await _repository.GetByIdAsync(dto.Id, cancellationToken);
+    var entity = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
     entity.TableName = dto.TableName;
     entity.RowVersion = dto.RowVersion;
@@ -27,7 +19,7 @@ public class UpdateTableSchemaCommandHandler : IRequestHandler<UpdateTableSchema
     UpdateColumns(entity, dto.Columns);
     UpdateForeignKeys(entity, dto.ForeignKeys);
 
-    await _context.SaveChangesAsync(cancellationToken);
+    await context.SaveChangesAsync(cancellationToken);
     return Unit.Value;
   }
 

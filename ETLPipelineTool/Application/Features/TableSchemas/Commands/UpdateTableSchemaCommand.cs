@@ -2,4 +2,7 @@ using ETLPipelineTool.Application.Dtos.V1.Requests.TableSchemas;
 
 namespace ETLPipelineTool.Application.Features.TableSchemas.Commands;
 
-public record UpdateTableSchemaCommand(UpdateTableSchemaDto TableSchema) : IRequest<Unit>;
+public class UpdateTableSchemaCommand(UpdateTableSchemaDto TableSchema) : IRequest<Unit>
+{
+  public UpdateTableSchemaDto TableSchema { get; } = TableSchema;
+}

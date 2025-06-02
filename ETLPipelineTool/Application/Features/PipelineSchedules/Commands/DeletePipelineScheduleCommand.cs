@@ -1,3 +1,6 @@
 namespace ETLPipelineTool.Application.Features.PipelineSchedules.Commands;
 
-public record DeletePipelineScheduleCommand(Guid Id) : IRequest<Unit>;
+public class DeletePipelineScheduleCommand(Guid Id) : IRequest<Unit>
+{
+  public Guid Id { get; } = Id;
+}

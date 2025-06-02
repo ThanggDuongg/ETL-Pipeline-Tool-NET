@@ -6,11 +6,10 @@ namespace ETLPipelineTool.Api.Controllers.V1
   public class AntiforgeryController(IAntiforgery antiforgery) : BaseApiController
   {
     [HttpGet()]
-    [ProducesResponseType(typeof(AntiforgeryTokenDataDto), StatusCodes.Status200OK)]
-    public IActionResult GetAntiforgeryToken()
+    public AntiforgeryTokenDataDto GetAntiforgeryToken()
     {
       var tokens = antiforgery.GetAndStoreTokens(HttpContext);
-      return Ok(new AntiforgeryTokenDataDto(tokens.RequestToken!, tokens.HeaderName!));
+      return new AntiforgeryTokenDataDto(tokens.RequestToken!, tokens.HeaderName!);
     }
   }
 }

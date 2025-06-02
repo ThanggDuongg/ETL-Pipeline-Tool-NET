@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace ETLPipelineTool.Application.Features.EtlExecutionLogs.Queries;
 
 public class GetEtlExecutionLogDetailQueryValidator

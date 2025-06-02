@@ -1,28 +1,22 @@
 namespace ETLPipelineTool.Application.Features.TransformRules.Commands;
 
-public class UpdateTransformRuleCommandHandler : IRequestHandler<UpdateTransformRuleCommand, Unit>
+public class UpdateTransformRuleCommandHandler(
+  ITransformRuleRepository repository,
+  IEtlContext context
+) : IRequestHandler<UpdateTransformRuleCommand, Unit>
 {
-  private readonly ITransformRuleRepository _repository;
-  private readonly IEtlContext _context;
-
-  public UpdateTransformRuleCommandHandler(ITransformRuleRepository repository, IEtlContext context)
-  {
-    _repository = repository;
-    _context = context;
-  }
-
   public async Task<Unit> Handle(
     UpdateTransformRuleCommand command,
     CancellationToken cancellationToken
   )
   {
-    var entity = await _repository.GetByIdAsync(command.Id, cancellationToken);
+    var entity = await repository.GetByIdAsync(command.Id, cancellationToken);
 
     entity.RuleConfigurationJson = command.RuleConfigurationJson;
     entity.RowVersion = command.RowVersion;
 
-    await _repository.UpdateAsync(entity, cancellationToken);
-    await _context.SaveChangesAsync(cancellationToken);
+    await repository.UpdateAsync(entity, cancellationToken);
+    await context.SaveChangesAsync(cancellationToken);
 
     return Unit.Value;
   }

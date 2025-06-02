@@ -13,13 +13,13 @@ public class UpdateFieldMappingCommandHandler(
     CancellationToken cancellationToken
   )
   {
-    UpdateFieldMappingDto fieldMappingDto = command.FieldMapping;
+    var fieldMappingDto = command.FieldMapping;
 
     // Workaround: Force order/sequence
     FieldMappingOrderService.NormalizeSourceFieldOrders(fieldMappingDto.FieldMappingSources);
     FieldMappingOrderService.NormalizeTransformRuleSequences(fieldMappingDto.TransformRules);
 
-    FieldMapping entity = await repository.GetByIdAsync(
+    var entity = await repository.GetByIdAsync(
       fieldMappingDto.Id,
       null,
       f => f.Include(x => x.SourceFields).Include(x => x.TransformRules),

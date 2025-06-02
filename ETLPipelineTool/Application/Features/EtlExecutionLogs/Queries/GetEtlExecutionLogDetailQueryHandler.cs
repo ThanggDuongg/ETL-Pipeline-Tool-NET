@@ -3,22 +3,15 @@ using ETLPipelineTool.Application.Features.EtlExecutionLogs.Projections;
 
 namespace ETLPipelineTool.Application.Features.EtlExecutionLogs.Queries;
 
-public class GetEtlExecutionLogDetailQueryHandler
+public class GetEtlExecutionLogDetailQueryHandler(IEtlExecutionLogRepository repository)
   : IRequestHandler<GetEtlExecutionLogDetailQuery, EtlExecutionLogDataDto>
 {
-  private readonly IEtlExecutionLogRepository _repository;
-
-  public GetEtlExecutionLogDetailQueryHandler(IEtlExecutionLogRepository repository)
-  {
-    _repository = repository;
-  }
-
   public async Task<EtlExecutionLogDataDto> Handle(
     GetEtlExecutionLogDetailQuery request,
     CancellationToken cancellationToken
   )
   {
-    return await _repository.GetByIdAsync(
+    return await repository.GetByIdAsync(
       request.Id,
       null,
       EtlExecutionLogProjection.AsEtlExecutionLogDataDto(),

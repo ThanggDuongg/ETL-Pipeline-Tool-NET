@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace ETLPipelineTool.Application.Features.TableSchemas.Queries;
 
 public class GetTableSchemaDetailQueryValidator : AbstractValidator<GetTableSchemaDetailQuery>

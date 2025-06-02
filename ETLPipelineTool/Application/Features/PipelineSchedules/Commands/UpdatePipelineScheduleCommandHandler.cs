@@ -1,5 +1,3 @@
-using ETLPipelineTool.Application.Features.PipelineSchedules.Mappings;
-
 namespace ETLPipelineTool.Application.Features.PipelineSchedules.Commands;
 
 public class UpdatePipelineScheduleCommandHandler(
@@ -13,7 +11,11 @@ public class UpdatePipelineScheduleCommandHandler(
   )
   {
     var entity = await repository.GetByIdAsync(command.Id, cancellationToken);
-    PipelineScheduleMapper.UpdateEntity(entity, command);
+    entity.CronExpression = command.CronExpression;
+    entity.IsEnabled = command.IsActive;
+    entity.StartDate = command.StartDate;
+    entity.EndDate = command.EndDate;
+    entity.RowVersion = command.RowVersion;
 
     await repository.UpdateAsync(entity, cancellationToken);
     await context.SaveChangesAsync(cancellationToken);

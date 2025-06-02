@@ -10,13 +10,12 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
       CancellationToken cancellationToken
     )
     {
-      var data = await fieldMappingRepository.GetByIdAsync(
+      return await fieldMappingRepository.GetByIdAsync(
         request.Id,
         null,
         FieldMappingProjection.AsFieldMappingDataDto(),
         cancellationToken
       );
-      return data;
     }
   }
 }

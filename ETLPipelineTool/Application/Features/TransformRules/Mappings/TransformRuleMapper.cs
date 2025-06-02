@@ -1,5 +1,4 @@
 using ETLPipelineTool.Application.Dtos.V1.Requests.TransformRules;
-using ETLPipelineTool.Application.Dtos.V1.Responses.TransformRules;
 using ETLPipelineTool.Application.Features.TransformRules.Commands;
 using ETLPipelineTool.Application.Features.TransformRules.Queries;
 
@@ -30,18 +29,5 @@ public static class TransformRuleMapper
       dto.RuleConfigurationJson,
       dto.RowVersion!
     );
-  }
-
-  public static TransformRuleDataDto ToTransformRuleDataDto(TransformRule entity)
-  {
-    return new TransformRuleDataDto
-    {
-      Id = entity.Id,
-      FieldMappingId = entity.FieldMappingId,
-      Sequence = entity.Sequence,
-      RuleType = entity.RuleType,
-      RuleConfigurationJson = entity.RuleConfigurationJson,
-      RowVersion = entity.RowVersion,
-    };
   }
 }

@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace ETLPipelineTool.Application.Features.PipelineSchedules.Queries;
 
 public class GetPipelineScheduleDetailQueryValidator

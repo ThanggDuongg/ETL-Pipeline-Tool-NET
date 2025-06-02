@@ -1,6 +1,7 @@
 using ETLPipelineTool.Application.Dtos.V1.Requests.TableSchemas;
 using ETLPipelineTool.Application.Dtos.V1.Responses;
 using ETLPipelineTool.Application.Dtos.V1.Responses.TableSchemas;
+using ETLPipelineTool.Application.Features.TableSchemas.Commands;
 using ETLPipelineTool.Application.Features.TableSchemas.Mappings;
 
 namespace ETLPipelineTool.Api.Controllers.V1
@@ -50,10 +51,7 @@ namespace ETLPipelineTool.Api.Controllers.V1
       CancellationToken cancellationToken
     )
     {
-      await mediator.Send(
-        new Application.Features.TableSchemas.Commands.CreateTableSchemaCommand(dto),
-        cancellationToken
-      );
+      await mediator.Send(new CreateTableSchemaCommand(dto), cancellationToken);
     }
   }
 }

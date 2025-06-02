@@ -3,19 +3,12 @@ using ETLPipelineTool.Application.Features.TableSchemas.Projections;
 
 namespace ETLPipelineTool.Application.Features.TableSchemas.Queries;
 
-public class GetTableSchemasQueryHandler
+public class GetTableSchemasQueryHandler(ITableSchemaRepository repository)
   : GridQueryHandler<GetTableSchemasQuery, TableSchema, TableSchemaDataDto>
 {
-  private readonly ITableSchemaRepository _repository;
-
-  public GetTableSchemasQueryHandler(ITableSchemaRepository repository)
-  {
-    _repository = repository;
-  }
-
   protected override IQueryable<TableSchema> GetBaseQuery(GetTableSchemasQuery request)
   {
-    return _repository.GetList();
+    return repository.GetList();
   }
 
   protected override IQueryable<TableSchema> ApplyFiltering(

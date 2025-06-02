@@ -4,6 +4,6 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Queries
 {
   public class GetEtlPipelineDetailQuery(Guid id) : IRequest<EtlPipelineDataDto>
   {
-    public Guid Id { get; set; } = id;
+    public Guid Id { get; } = id;
   }
 }

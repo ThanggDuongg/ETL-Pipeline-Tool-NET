@@ -6,7 +6,6 @@ public class UpdatePipelineScheduleCommandValidator
   public UpdatePipelineScheduleCommandValidator()
   {
     RuleFor(x => x.Id).NotEmpty();
-    RuleFor(x => x.EtlPipelineId).NotEmpty();
     RuleFor(x => x.CronExpression).NotEmpty().Must(BeValidCronExpression);
     RuleFor(x => x.RowVersion).NotNull();
 

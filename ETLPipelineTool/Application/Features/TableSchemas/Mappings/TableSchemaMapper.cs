@@ -1,9 +1,6 @@
 using ETLPipelineTool.Application.Dtos.V1.Requests.TableSchemas;
-using ETLPipelineTool.Application.Dtos.V1.Responses.TableSchemas;
 using ETLPipelineTool.Application.Features.TableSchemas.Commands;
-using ETLPipelineTool.Application.Features.TableSchemas.Projections;
 using ETLPipelineTool.Application.Features.TableSchemas.Queries;
-using ETLPipelineTool.Domain.Entities;
 
 namespace ETLPipelineTool.Application.Features.TableSchemas.Mappings;
 
@@ -16,39 +13,37 @@ public static class TableSchemaMapper
     {
       EtlPipelineId = dto.EtlPipelineId,
       TableName = dto.TableName,
-      Columns = dto
-        .Columns.Select(c => new ColumnSchema
+      Columns =
+      [
+        .. dto.Columns.Select(c => new ColumnSchema
         {
           ColumnName = c.ColumnName,
           DataType = c.DataType,
           IsPrimaryKey = c.IsPrimaryKey,
           IsNullable = c.IsNullable,
           MaxLength = c.MaxLength,
-        })
-        .ToList(),
-      ForeignKeys = dto
-        .ForeignKeys.Select(fk => new ForeignKeySchema
+        }),
+      ],
+      ForeignKeys =
+      [
+        .. dto.ForeignKeys.Select(fk => new ForeignKeySchema
         {
           ConstraintName = fk.ConstraintName,
           PrincipalTable = fk.PrincipalTable,
-          Columns = fk
-            .ForeignKeyColumns.Select(c => new ForeignKeyColumn { ColumnName = c.ColumnName })
-            .ToList(),
-          PrincipalColumns = fk
-            .PrincipalColumns.Select(c => new ForeignKeyPrincipalColumn
+          Columns =
+          [
+            .. fk.ForeignKeyColumns.Select(c => new ForeignKeyColumn { ColumnName = c.ColumnName }),
+          ],
+          PrincipalColumns =
+          [
+            .. fk.PrincipalColumns.Select(c => new ForeignKeyPrincipalColumn
             {
               PrincipalColumnName = c.PrincipalColumnName,
-            })
-            .ToList(),
-        })
-        .ToList(),
+            }),
+          ],
+        }),
+      ],
     };
-  }
-
-  public static TableSchemaDataDto ToTableSchemaDataDto(TableSchema entity)
-  {
-    // Use the projection for consistency
-    return TableSchemaProjection.AsTableSchemaDataDto().Compile()(entity);
   }
 
   public static GetTableSchemasQuery ToGetTableSchemasQuery(GridTableSchemasFilterDto dto)

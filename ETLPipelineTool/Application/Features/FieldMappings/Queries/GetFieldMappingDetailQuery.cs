@@ -4,6 +4,6 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
 {
   public class GetFieldMappingDetailQuery(Guid id) : IRequest<FieldMappingDataDto>
   {
-    public Guid Id { get; set; } = id;
+    public Guid Id { get; } = id;
   }
 }

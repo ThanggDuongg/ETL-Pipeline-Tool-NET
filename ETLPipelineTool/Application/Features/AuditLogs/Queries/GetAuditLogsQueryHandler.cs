@@ -1,17 +1,11 @@
 using ETLPipelineTool.Application.Dtos.V1.Responses.AuditLogs;
+using ETLPipelineTool.Application.Features.AuditLogs.Projections;
 
 namespace ETLPipelineTool.Application.Features.AuditLogs.Queries;
 
-public class GetAuditLogsQueryHandler
+public class GetAuditLogsQueryHandler(IAuditLogRepository repository)
   : GridQueryHandler<GetAuditLogsQuery, AuditLog, AuditLogDataDto>
 {
-  private readonly IAuditLogRepository _repository;
-
-  public GetAuditLogsQueryHandler(IAuditLogRepository repository)
-  {
-    _repository = repository;
-  }
-
   protected override List<string> ExpandColumns { get; set; } =
     [
       nameof(AuditLogDataDto.Id),
@@ -23,7 +17,7 @@ public class GetAuditLogsQueryHandler
 
   protected override IQueryable<AuditLog> GetBaseQuery(GetAuditLogsQuery request)
   {
-    return _repository.GetList();
+    return repository.GetList();
   }
 
   protected override IQueryable<AuditLog> ApplyFiltering(
@@ -56,16 +50,6 @@ public class GetAuditLogsQueryHandler
 
   protected override Expression<Func<AuditLog, AuditLogDataDto>> BuildFullProjection()
   {
-    return entity => new AuditLogDataDto
-    {
-      Id = entity.Id,
-      TableName = entity.TableName,
-      ActionType = entity.ActionType,
-      KeyValues = entity.KeyValues,
-      OldValues = entity.OldValues,
-      NewValues = entity.NewValues,
-      CreatedBy = entity.CreatedBy,
-      CreatedOn = entity.CreatedOn,
-    };
+    return AuditLogProjection.AsAuditLogDataDto();
   }
 }

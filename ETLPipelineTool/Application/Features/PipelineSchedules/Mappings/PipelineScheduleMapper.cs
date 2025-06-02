@@ -36,7 +36,6 @@ namespace ETLPipelineTool.Application.Features.PipelineSchedules.Mappings
     {
       return new UpdatePipelineScheduleCommand(
         dto.Id,
-        dto.EtlPipelineId,
         dto.CronExpression,
         dto.IsActive,
         dto.StartDate,
@@ -68,15 +67,6 @@ namespace ETLPipelineTool.Application.Features.PipelineSchedules.Mappings
         StartDate = command.StartDate,
         EndDate = command.EndDate,
       };
-    }
-
-    public static void UpdateEntity(PipelineSchedule entity, UpdatePipelineScheduleCommand command)
-    {
-      entity.EtlPipelineId = command.EtlPipelineId;
-      entity.CronExpression = command.CronExpression;
-      entity.IsEnabled = command.IsActive;
-      entity.StartDate = command.StartDate;
-      entity.EndDate = command.EndDate;
     }
   }
 }

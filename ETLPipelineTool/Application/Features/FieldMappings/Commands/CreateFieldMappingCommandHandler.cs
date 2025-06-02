@@ -16,7 +16,7 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
       FieldMappingOrderService.NormalizeSourceFieldOrders(command.FieldMapping.FieldMappingSources);
       FieldMappingOrderService.NormalizeTransformRuleSequences(command.FieldMapping.TransformRules);
 
-      FieldMapping entity = FieldMappingMapper.ToEntity(command);
+      var entity = FieldMappingMapper.ToEntity(command);
 
       await fieldMappingRepository.AddAsync(entity, cancellationToken);
       await context.SaveChangesAsync(cancellationToken);

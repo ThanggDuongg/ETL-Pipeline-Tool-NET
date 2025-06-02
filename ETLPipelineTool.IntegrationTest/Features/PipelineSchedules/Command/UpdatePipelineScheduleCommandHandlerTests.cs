@@ -35,7 +35,6 @@ namespace ETLPipelineTool.IntegrationTest.Features.PipelineSchedules.Command
 
       UpdatePipelineScheduleCommand command = new(
         schedule.Id,
-        etlPipeline.Id,
         "0 */4 * * *", // Every 4 hours
         false,
         null,

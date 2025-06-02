@@ -1,3 +1,6 @@
 namespace ETLPipelineTool.Application.Features.TableSchemas.Commands;
 
-public record DeleteTableSchemaCommand(Guid Id) : IRequest<Unit>;
+public class DeleteTableSchemaCommand(Guid Id) : IRequest<Unit>
+{
+  public Guid Id { get; } = Id;
+}

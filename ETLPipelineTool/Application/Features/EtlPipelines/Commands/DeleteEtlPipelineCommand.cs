@@ -2,6 +2,6 @@
 {
   public class DeleteEtlPipelineCommand(Guid id) : IRequest<Unit>
   {
-    public Guid Id { get; set; } = id;
+    public Guid Id { get; } = id;
   }
 }

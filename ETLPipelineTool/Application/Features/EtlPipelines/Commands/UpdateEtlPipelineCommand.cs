@@ -12,14 +12,14 @@
     byte[] rowVersion
   ) : IRequest<Unit>
   {
-    public Guid Id { get; set; } = id;
-    public string Name { get; set; } = name;
-    public string Description { get; set; } = description;
-    public PipelineSourceType SourceType { get; set; } = sourceType;
-    public PipelineTargetType TargetType { get; set; } = targetType;
-    public string SourceConfigurationJson { get; set; } = sourceConfigurationJson;
-    public string TargetConfigurationJson { get; set; } = targetConfigurationJson;
-    public bool IsActive { get; set; } = isActive;
+    public Guid Id { get; } = id;
+    public string Name { get; } = name;
+    public string Description { get; } = description;
+    public PipelineSourceType SourceType { get; } = sourceType;
+    public PipelineTargetType TargetType { get; } = targetType;
+    public string SourceConfigurationJson { get; } = sourceConfigurationJson;
+    public string TargetConfigurationJson { get; } = targetConfigurationJson;
+    public bool IsActive { get; } = isActive;
     public byte[] RowVersion { get; set; } = rowVersion;
   }
 }
