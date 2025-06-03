@@ -1,11 +1,9 @@
-using ETLPipelineTool.Application.Dtos.V1.Responses.EtlPipelines;
-
 namespace ETLPipelineTool.Application.Dtos.V1.Responses.PipelineSchedules
 {
   public record PipelineScheduleDataDto
   {
     public Guid Id { get; init; }
-    public EtlPipelineDataDto EtlPipeline { get; init; } = default!;
+    public Guid EtlPipelineId { get; init; }
     public string CronExpression { get; init; } = default!;
     public bool IsActive { get; init; }
     public DateTime? StartDate { get; init; }
@@ -16,7 +14,7 @@ namespace ETLPipelineTool.Application.Dtos.V1.Responses.PipelineSchedules
 
     public PipelineScheduleDataDto(
       Guid id,
-      EtlPipelineDataDto etlPipeline,
+      Guid etlPipelineId,
       string cronExpression,
       bool isActive,
       DateTime? startDate,
@@ -25,7 +23,7 @@ namespace ETLPipelineTool.Application.Dtos.V1.Responses.PipelineSchedules
     )
     {
       Id = id;
-      EtlPipeline = etlPipeline;
+      EtlPipelineId = etlPipelineId;
       CronExpression = cronExpression;
       IsActive = isActive;
       StartDate = startDate;

@@ -1,0 +1,8 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "cronExpression": "0 0 * * *",
+  "isActive": true,
+  "startDate": "2024-01-01T00:00:00Z",
+  "endDate": "2023-01-01T00:00:00Z",
+  "rowVersion": "AAAAAAAAB9E="
+}

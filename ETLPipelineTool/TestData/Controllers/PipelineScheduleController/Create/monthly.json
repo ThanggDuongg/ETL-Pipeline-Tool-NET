@@ -1,6 +1,6 @@
 {
   "etlPipelineId": "fe00efb2-09b5-4a6e-a423-3593aa79fd51",
-  "cronExpression": "0 0 * * 1",
+  "cronExpression": "0 0 1 * *",
   "isActive": true,
   "startDate": "2023-01-01T00:00:00Z",
   "endDate": "2024-12-31T23:59:59Z"
