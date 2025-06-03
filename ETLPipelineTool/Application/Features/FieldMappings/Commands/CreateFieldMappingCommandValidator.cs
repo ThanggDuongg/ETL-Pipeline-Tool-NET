@@ -1,4 +1,5 @@
 ﻿using ETLPipelineTool.Application.Dtos.V1.Requests.FieldMappings;
+using ETLPipelineTool.Application.Dtos.V1.Requests.TransformRules;
 
 namespace ETLPipelineTool.Application.Features.FieldMappings.Commands
 {

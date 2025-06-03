@@ -1,4 +1,6 @@
-﻿namespace ETLPipelineTool.Application.Dtos.V1.Requests.FieldMappings
+﻿using ETLPipelineTool.Application.Dtos.V1.Requests.TransformRules;
+
+namespace ETLPipelineTool.Application.Dtos.V1.Requests.FieldMappings
 {
   public record CreateFieldMappingDto(
     Guid EtlPipelineId,
