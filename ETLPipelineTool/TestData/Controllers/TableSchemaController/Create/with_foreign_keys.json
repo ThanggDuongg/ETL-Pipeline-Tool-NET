@@ -1,5 +1,5 @@
 {
-  "etlPipelineId": "00000000-0000-0000-0000-000000000000",
+  "etlPipelineId": "fe00efb2-09b5-4a6e-a423-3593aa79fd51",
   "tableName": "Orders",
   "columns": [
     {
@@ -24,17 +24,23 @@
       "columnName": "TotalAmount",
       "dataType": "decimal",
       "isPrimaryKey": false,
-      "isNullable": false,
-      "precision": 18,
-      "scale": 2
+      "isNullable": false
     }
   ],
   "foreignKeys": [
     {
-      "name": "FK_Orders_Customers",
-      "columnName": "CustomerId",
-      "referencedTableName": "Customers",
-      "referencedColumnName": "Id"
+      "constraintName": "FK_Orders_Customers",
+      "principalTable": "Customers",
+      "foreignKeyColumns": [
+        {
+          "columnName": "CustomerId"
+        }
+      ],
+      "principalColumns": [
+        {
+          "principalColumnName": "Id"
+        }
+      ]
     }
   ]
 }

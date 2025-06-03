@@ -1,0 +1,6 @@
+{
+  "fieldMappingId": "00000000-0000-0000-0000-000000000000",
+  "sequence": 4,
+  "ruleType": 1,
+  "ruleConfigurationJson": "{\"separator\": \", \", \"trimWhitespace\": true, \"skipEmpty\": true}"
+}

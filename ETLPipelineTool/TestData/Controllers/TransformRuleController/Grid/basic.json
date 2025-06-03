@@ -1,0 +1,14 @@
+{
+  "gridDataSourceDto": {
+    "take": 10,
+    "skip": 0,
+    "preloadAllData": false,
+    "sortFields": [
+      {
+        "field": "sequence",
+        "direction": "asc"
+      }
+    ]
+  },
+  "fieldMappingId": "00000000-0000-0000-0000-000000000000"
+}
