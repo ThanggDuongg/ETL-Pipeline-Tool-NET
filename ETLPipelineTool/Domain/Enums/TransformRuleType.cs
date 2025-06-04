@@ -5,5 +5,6 @@
     Identity,
     Concat,
     IfNull,
+    Regex,
   }
 }
