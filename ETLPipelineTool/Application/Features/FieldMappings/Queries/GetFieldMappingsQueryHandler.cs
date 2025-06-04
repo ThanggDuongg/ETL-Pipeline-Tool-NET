@@ -10,7 +10,7 @@ namespace ETLPipelineTool.Application.Features.FieldMappings.Queries
 
     protected override IQueryable<FieldMapping> GetBaseQuery(GetFieldMappingsQuery request)
     {
-      return fieldMappingRepository.GetList();
+      return fieldMappingRepository.Get();
     }
 
     protected override IQueryable<FieldMapping> ApplyFiltering(

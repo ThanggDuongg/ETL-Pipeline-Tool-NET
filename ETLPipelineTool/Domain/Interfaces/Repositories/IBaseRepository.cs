@@ -21,9 +21,14 @@
     )
       where TDto : class;
 
-    IQueryable<TEntity> GetList(bool isTracking = false);
+    IQueryable<TEntity> Get(bool isTracking = false);
 
     Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+
+    Task AddRangeAsync(
+      IEnumerable<TEntity> entities,
+      CancellationToken cancellationToken = default
+    );
 
     Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 

@@ -4,6 +4,7 @@
   {
     public void Configure(EntityTypeBuilder<TableSchema> builder)
     {
+      // TODO: Setup { TableName, EtlPipelineId } is unique
       builder.Property(x => x.TableName).HasAsciiColumn(200).IsRequired();
     }
   }

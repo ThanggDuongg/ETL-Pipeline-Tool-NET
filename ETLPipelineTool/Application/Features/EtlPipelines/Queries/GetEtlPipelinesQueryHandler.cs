@@ -14,7 +14,7 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Queries
 
     protected override IQueryable<EtlPipeline> GetBaseQuery(GetEtlPipelinesQuery request)
     {
-      return etlPipelineRepository.GetList();
+      return etlPipelineRepository.Get();
     }
 
     protected override IQueryable<EtlPipeline> ApplyFiltering(

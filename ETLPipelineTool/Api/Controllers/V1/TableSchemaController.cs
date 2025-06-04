@@ -53,5 +53,29 @@ namespace ETLPipelineTool.Api.Controllers.V1
     {
       await mediator.Send(new CreateTableSchemaCommand(dto), cancellationToken);
     }
+
+    [HttpPost("sync-from-source")]
+    public async Task SyncSchemaFromSource(
+      [FromBody] SyncTableSchemaFromSourceDto dto,
+      CancellationToken cancellationToken
+    )
+    {
+      await mediator.Send(
+        TableSchemaMapper.ToSyncTableSchemaFromSourceCommand(dto),
+        cancellationToken
+      );
+    }
+
+    [HttpPost("sync-multiple-from-source")]
+    public async Task SyncSchemasFromSource(
+      [FromBody] SyncTableSchemasFromSourceDto dto,
+      CancellationToken cancellationToken
+    )
+    {
+      await mediator.Send(
+        new SyncTableSchemasFromSourceCommand(dto.EtlPipelineId, dto.TableNames),
+        cancellationToken
+      );
+    }
   }
 }

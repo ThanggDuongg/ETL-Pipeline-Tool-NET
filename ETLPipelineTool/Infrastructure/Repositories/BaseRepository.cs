@@ -73,7 +73,7 @@
         ?? throw new NotFoundException<Guid>(typeof(TEntity), id);
     }
 
-    public IQueryable<TEntity> GetList(bool isTracking = false)
+    public IQueryable<TEntity> Get(bool isTracking = false)
     {
       var query = etlContext.Get<TEntity>();
       if (isTracking)
@@ -87,6 +87,14 @@
     public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
       await etlContext.UpdateAsync<TEntity>(entity);
+    }
+
+    public async Task AddRangeAsync(
+      IEnumerable<TEntity> entities,
+      CancellationToken cancellationToken = default
+    )
+    {
+      await etlContext.AddRangeAsync(entities, cancellationToken);
     }
   }
 }

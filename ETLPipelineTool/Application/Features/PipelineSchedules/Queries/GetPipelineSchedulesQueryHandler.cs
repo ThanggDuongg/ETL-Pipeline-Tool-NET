@@ -8,7 +8,7 @@ namespace ETLPipelineTool.Application.Features.PipelineSchedules.Queries
   {
     protected override IQueryable<PipelineSchedule> GetBaseQuery(GetPipelineSchedulesQuery request)
     {
-      return repository.GetList().Include(x => x.EtlPipeline);
+      return repository.Get();
     }
 
     protected override IQueryable<PipelineSchedule> ApplyFiltering(

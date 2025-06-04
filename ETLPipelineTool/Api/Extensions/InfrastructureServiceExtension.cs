@@ -24,6 +24,7 @@ namespace ETLPipelineTool.Api.Extensions
       services.AddScoped<IExtractor, MssqlExtractor>();
       services.AddScoped<IExtractorFactory, ExtractorFactory>();
       services.Decorate<IExtractor, LoggingExtractorDecorator>();
+      services.AddScoped<ISchemaExtractor, MssqlSchemaExtractor>();
 
       return services;
     }

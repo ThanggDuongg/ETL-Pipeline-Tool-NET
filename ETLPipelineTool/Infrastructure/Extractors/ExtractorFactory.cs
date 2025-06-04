@@ -10,5 +10,15 @@ namespace ETLPipelineTool.Infrastructure.Extractors
         PipelineSourceType.MssqlDatabase => serviceProvider.GetRequiredService<MssqlExtractor>(),
         _ => throw new NotSupportedException($"Unsupported source {type}"),
       };
+
+    public ISchemaExtractor CreateSchemaExtractor(PipelineSourceType type) =>
+      type switch
+      {
+        PipelineSourceType.MssqlDatabase =>
+          serviceProvider.GetRequiredService<MssqlSchemaExtractor>(),
+        _ => throw new NotSupportedException(
+          $"Source type {type} does not support schema extraction"
+        ),
+      };
   }
 }

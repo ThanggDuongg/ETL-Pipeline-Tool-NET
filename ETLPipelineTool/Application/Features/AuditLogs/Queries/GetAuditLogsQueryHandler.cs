@@ -17,7 +17,7 @@ public class GetAuditLogsQueryHandler(IAuditLogRepository repository)
 
   protected override IQueryable<AuditLog> GetBaseQuery(GetAuditLogsQuery request)
   {
-    return repository.GetList();
+    return repository.Get();
   }
 
   protected override IQueryable<AuditLog> ApplyFiltering(

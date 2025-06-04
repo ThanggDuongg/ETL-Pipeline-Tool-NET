@@ -8,7 +8,7 @@ public class GetTransformRulesQueryHandler(ITransformRuleRepository repository)
 {
   protected override IQueryable<TransformRule> GetBaseQuery(GetTransformRulesQuery request)
   {
-    return repository.GetList();
+    return repository.Get();
   }
 
   protected override IQueryable<TransformRule> ApplyFiltering(

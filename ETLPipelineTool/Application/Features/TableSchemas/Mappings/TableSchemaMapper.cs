@@ -71,4 +71,11 @@ public static class TableSchemaMapper
   {
     return new UpdateTableSchemaCommand(dto);
   }
+
+  public static SyncTableSchemaFromSourceCommand ToSyncTableSchemaFromSourceCommand(
+    SyncTableSchemaFromSourceDto dto
+  )
+  {
+    return new SyncTableSchemaFromSourceCommand(dto.EtlPipelineId, dto.TableName);
+  }
 }

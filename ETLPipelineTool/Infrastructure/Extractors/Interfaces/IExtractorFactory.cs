@@ -3,5 +3,6 @@
   public interface IExtractorFactory
   {
     IExtractor Create(PipelineSourceType type);
+    ISchemaExtractor CreateSchemaExtractor(PipelineSourceType type);
   }
 }

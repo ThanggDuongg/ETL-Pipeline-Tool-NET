@@ -8,7 +8,7 @@ public class GetEtlExecutionLogsQueryHandler(IEtlExecutionLogRepository reposito
 {
   protected override IQueryable<EtlExecutionLog> GetBaseQuery(GetEtlExecutionLogsQuery request)
   {
-    return repository.GetList();
+    return repository.Get();
   }
 
   protected override IQueryable<EtlExecutionLog> ApplyFiltering(

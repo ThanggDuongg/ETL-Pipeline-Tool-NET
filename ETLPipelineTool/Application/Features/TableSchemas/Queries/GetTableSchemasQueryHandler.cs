@@ -8,7 +8,7 @@ public class GetTableSchemasQueryHandler(ITableSchemaRepository repository)
 {
   protected override IQueryable<TableSchema> GetBaseQuery(GetTableSchemasQuery request)
   {
-    return repository.GetList();
+    return repository.Get();
   }
 
   protected override IQueryable<TableSchema> ApplyFiltering(
