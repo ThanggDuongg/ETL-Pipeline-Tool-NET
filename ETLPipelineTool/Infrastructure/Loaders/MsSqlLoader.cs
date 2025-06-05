@@ -245,7 +245,7 @@ public class MsSqlLoader(ILogger<MsSqlLoader> logger) : ILoader
     return count > 0;
   }
 
-  private string GenerateCreateTableStatement(
+  private static string GenerateCreateTableStatement(
     string tableName,
     IDictionary<string, object> sampleRow
   )
