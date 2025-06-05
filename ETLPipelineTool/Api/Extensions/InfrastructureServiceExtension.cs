@@ -37,6 +37,12 @@ namespace ETLPipelineTool.Api.Extensions
       services.AddScoped<ITransformer, Transformer>();
       services.Decorate<ITransformer, LoggingTransformerDecorator>();
 
+      // Loaders
+      services.AddScoped<MsSqlLoader>();
+      services.AddScoped<ILoaderFactory, LoaderFactory>();
+      services.AddTransient<ILoader, MsSqlLoader>();
+      services.Decorate<ILoader, LoggingLoaderDecorator>();
+
       return services;
     }
   }
