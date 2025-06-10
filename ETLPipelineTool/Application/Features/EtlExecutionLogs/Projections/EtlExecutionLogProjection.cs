@@ -12,6 +12,7 @@ namespace ETLPipelineTool.Application.Features.EtlExecutionLogs.Projections
       {
         Id = x.Id,
         EtlPipelineId = x.EtlPipelineId,
+        EtlPipelineName = x.EtlPipeline!.Name,
         StartTime = x.StartTime,
         EndTime = x.EndTime,
         Status = x.Status,

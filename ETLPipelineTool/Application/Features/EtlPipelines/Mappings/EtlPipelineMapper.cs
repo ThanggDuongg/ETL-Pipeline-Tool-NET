@@ -66,5 +66,10 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Mappings
         IsActive = command.IsActive,
       };
     }
+
+    public static RunEtlPipelineCommand ToRunEtlPipelineCommand(Guid id)
+    {
+      return new RunEtlPipelineCommand(id);
+    }
   }
 }

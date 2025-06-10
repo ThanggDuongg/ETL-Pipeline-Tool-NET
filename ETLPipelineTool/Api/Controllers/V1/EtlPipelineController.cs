@@ -54,5 +54,11 @@ namespace ETLPipelineTool.Api.Controllers.V1
         cancellationToken
       );
     }
+
+    [HttpPost("{id}/run")]
+    public async Task RunPipeline([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+      await mediator.Send(EtlPipelineMapper.ToRunEtlPipelineCommand(id), cancellationToken);
+    }
   }
 }
