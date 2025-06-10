@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using ETLPipelineTool.Application.Services.Interfaces;
 using ETLPipelineTool.Domain.ValueObjects;
 using ETLPipelineTool.Infrastructure.Configurations;
 using ETLPipelineTool.Infrastructure.Extractors.Interfaces;
@@ -6,8 +7,20 @@ using Microsoft.Data.SqlClient;
 
 namespace ETLPipelineTool.Infrastructure.Extractors
 {
-  public class MssqlExtractor(ILogger<MssqlExtractor> logger) : IExtractor
+  public class MssqlExtractor(ILogger<MssqlExtractor> logger, IConnectionManager connectionManager)
+    : IExtractor
   {
+    private readonly IConnectionManager _connectionManager =
+      connectionManager ?? throw new ArgumentNullException(nameof(connectionManager));
+    private DbConnection? _connection;
+    private bool _externalConnection = false;
+
+    public void SetConnection(DbConnection connection)
+    {
+      _connection = connection;
+      _externalConnection = true;
+    }
+
     public async IAsyncEnumerable<TableData> ExtractAsync(
       EtlPipeline etlPipeline,
       [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -15,59 +28,80 @@ namespace ETLPipelineTool.Infrastructure.Extractors
     {
       var cfg = JsonSerializer.Deserialize<SqlSourceConfig>(etlPipeline.SourceConfigurationJson)!;
 
-      await using var conn = new SqlConnection(cfg.ConnectionString);
-      await conn.OpenAsync(cancellationToken);
-
-      logger.LogInformation("Connected to SQL Server database");
-
-      if (!string.IsNullOrEmpty(cfg.Query))
+      SqlConnection conn;
+      if (_externalConnection && _connection != null)
       {
-        logger.LogInformation("Executing custom query");
-        yield return new TableData(
-          TableName: "QueryResult",
-          Rows: StreamRows(
-            conn,
-            cfg.Query,
-            cfg.CommandTimeout,
-            cfg.BatchSize,
-            cfg.UseColumnMetadata,
-            cancellationToken
-          )
+        conn = (SqlConnection)_connection;
+      }
+      else
+      {
+        var dbConnection = await _connectionManager.GetConnectionAsync(
+          cfg.ConnectionString,
+          cancellationToken
         );
-        yield break;
+        conn = (SqlConnection)dbConnection;
       }
 
-      var tables = etlPipeline.TableSchemas.Select(s => s.TableName).ToList();
-
-      if (tables.Count == 0)
+      try
       {
-        throw new BusinessException("No table schemas found. Please sync schemas first.");
+        logger.LogInformation("Connected to SQL Server database");
+
+        if (!string.IsNullOrEmpty(cfg.Query))
+        {
+          logger.LogInformation("Executing custom query");
+          yield return new TableData(
+            TableName: "QueryResult",
+            Rows: StreamRows(
+              conn,
+              cfg.Query,
+              cfg.CommandTimeout,
+              cfg.BatchSize,
+              cfg.UseColumnMetadata,
+              cancellationToken
+            )
+          );
+          yield break;
+        }
+
+        var tables = etlPipeline.TableSchemas.Select(s => s.TableName).ToList();
+
+        if (tables.Count == 0)
+        {
+          throw new BusinessException("No table schemas found. Please sync schemas first.");
+        }
+
+        logger.LogInformation("Found {TableCount} tables with schemas to extract", tables.Count);
+
+        foreach (var tbl in tables)
+        {
+          var schema = etlPipeline.TableSchemas.First(s =>
+            s.TableName.Equals(tbl, StringComparison.OrdinalIgnoreCase)
+          );
+
+          logger.LogInformation("Extracting data from table {TableName}", tbl);
+
+          var columnNames = string.Join(", ", schema.Columns.Select(c => $"[{c.ColumnName}]"));
+          var sql = $"SELECT {columnNames} FROM {tbl}";
+
+          yield return new TableData(
+            tbl,
+            StreamRows(
+              conn,
+              sql,
+              cfg.CommandTimeout,
+              cfg.BatchSize,
+              cfg.UseColumnMetadata,
+              cancellationToken
+            )
+          );
+        }
       }
-
-      logger.LogInformation("Found {TableCount} tables with schemas to extract", tables.Count);
-
-      foreach (var tbl in tables)
+      finally
       {
-        var schema = etlPipeline.TableSchemas.First(s =>
-          s.TableName.Equals(tbl, StringComparison.OrdinalIgnoreCase)
-        );
-
-        logger.LogInformation("Extracting data from table {TableName}", tbl);
-
-        var columnNames = string.Join(", ", schema.Columns.Select(c => $"[{c.ColumnName}]"));
-        var sql = $"SELECT {columnNames} FROM {tbl}";
-
-        yield return new TableData(
-          tbl,
-          StreamRows(
-            conn,
-            sql,
-            cfg.CommandTimeout,
-            cfg.BatchSize,
-            cfg.UseColumnMetadata,
-            cancellationToken
-          )
-        );
+        if (!_externalConnection && conn != null)
+        {
+          // Do nothing
+        }
       }
     }
 

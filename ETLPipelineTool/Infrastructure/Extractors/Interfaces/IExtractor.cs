@@ -8,5 +8,7 @@ namespace ETLPipelineTool.Infrastructure.Extractors.Interfaces
       EtlPipeline etlPipeline,
       CancellationToken cancellationToken = default
     );
+
+    void SetConnection(DbConnection connection);
   }
 }

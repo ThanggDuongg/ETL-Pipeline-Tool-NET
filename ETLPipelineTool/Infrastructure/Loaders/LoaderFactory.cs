@@ -7,7 +7,7 @@ namespace ETLPipelineTool.Infrastructure.Loaders
     public ILoader Create(PipelineTargetType type) =>
       type switch
       {
-        PipelineTargetType.MssqlDatabase => serviceProvider.GetRequiredService<MsSqlLoader>(),
+        PipelineTargetType.MssqlDatabase => serviceProvider.GetRequiredService<MssqlLoader>(),
         _ => throw new NotSupportedException($"Unsupported target type {type}"),
       };
   }

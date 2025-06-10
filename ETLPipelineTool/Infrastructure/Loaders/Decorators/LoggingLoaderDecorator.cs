@@ -1,6 +1,6 @@
 using ETLPipelineTool.Infrastructure.Loaders.Interfaces;
 
-namespace ETLPipelineTool.Infrastructure.Loaders
+namespace ETLPipelineTool.Infrastructure.Loaders.Decorators
 {
   public class LoggingLoaderDecorator(
     ILoader decoratedLoader,
@@ -44,6 +44,11 @@ namespace ETLPipelineTool.Infrastructure.Loaders
         );
         throw;
       }
+    }
+
+    public void SetConnection(DbConnection connection)
+    {
+      decoratedLoader.SetConnection(connection);
     }
   }
 }

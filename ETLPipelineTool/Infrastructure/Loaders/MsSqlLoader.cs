@@ -1,13 +1,24 @@
 ﻿using System.Data;
 using System.Text;
+using ETLPipelineTool.Application.Services.Interfaces;
 using ETLPipelineTool.Infrastructure.Configurations;
 using ETLPipelineTool.Infrastructure.Loaders.Interfaces;
 using Microsoft.Data.SqlClient;
 
 namespace ETLPipelineTool.Infrastructure.Loaders;
 
-public class MsSqlLoader(ILogger<MsSqlLoader> logger) : ILoader
+public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connectionManager)
+  : ILoader
 {
+  private DbConnection? _connection = null;
+  private bool _externalConnection = false;
+
+  public void SetConnection(DbConnection connection)
+  {
+    _connection = connection;
+    _externalConnection = true;
+  }
+
   public async Task LoadAsync(
     EtlPipeline etlPipeline,
     IEnumerable<IDictionary<string, object>> transformedData,
@@ -32,52 +43,84 @@ public class MsSqlLoader(ILogger<MsSqlLoader> logger) : ILoader
 
     var dataByTable = GroupDataByTable(dataList, etlPipeline);
 
-    await using var conn = new SqlConnection(configuration.ConnectionString);
-    await conn.OpenAsync(cancellationToken);
-
-    if (configuration.CreateDatabaseIfNotExists)
+    DbConnection conn;
+    if (_externalConnection && _connection != null)
     {
-      await EnsureDatabaseExistsAsync(conn, cancellationToken);
+      conn = _connection;
+    }
+    else
+    {
+      conn = await connectionManager.GetConnectionAsync(
+        configuration.ConnectionString,
+        cancellationToken
+      );
     }
 
-    foreach (var (tableName, tableData) in dataByTable)
+    try
     {
-      var targetTableName = GetTargetTableName(tableName, configuration);
-
-      if (configuration.CreateTablesIfNotExist)
+      if (configuration.CreateDatabaseIfNotExists)
       {
-        await EnsureTableExistsAsync(
-          conn,
-          targetTableName,
-          tableData[0],
-          configuration,
-          cancellationToken
+        await EnsureDatabaseExistsAsync((SqlConnection)conn, cancellationToken);
+      }
+
+      foreach (var (tableName, tableData) in dataByTable)
+      {
+        var targetTableName = GetTargetTableName(tableName, configuration);
+
+        if (configuration.CreateTablesIfNotExist)
+        {
+          await EnsureTableExistsAsync(
+            (SqlConnection)conn,
+            targetTableName,
+            tableData[0],
+            configuration,
+            cancellationToken
+          );
+        }
+
+        logger.LogInformation(
+          "Loading {RowCount} rows into {TableName}",
+          tableData.Count,
+          targetTableName
         );
-      }
 
-      logger.LogInformation(
-        "Loading {RowCount} rows into {TableName}",
-        tableData.Count,
-        targetTableName
-      );
-
-      if (configuration.UseBulkCopy)
-      {
-        await BulkLoadAsync(conn, targetTableName, tableData, configuration, cancellationToken);
+        if (configuration.UseBulkCopy)
+        {
+          await BulkLoadAsync(
+            (SqlConnection)conn,
+            targetTableName,
+            tableData,
+            configuration,
+            cancellationToken
+          );
+        }
+        else if (configuration.UseBatchInsert)
+        {
+          await BatchInsertAsync(
+            (SqlConnection)conn,
+            targetTableName,
+            tableData,
+            configuration,
+            cancellationToken
+          );
+        }
+        else
+        {
+          await RowByRowInsertAsync(
+            (SqlConnection)conn,
+            targetTableName,
+            tableData,
+            configuration,
+            cancellationToken
+          );
+        }
       }
-      else if (configuration.UseBatchInsert)
+    }
+    finally
+    {
+      if (!_externalConnection && conn != null)
       {
-        await BatchInsertAsync(conn, targetTableName, tableData, configuration, cancellationToken);
-      }
-      else
-      {
-        await RowByRowInsertAsync(
-          conn,
-          targetTableName,
-          tableData,
-          configuration,
-          cancellationToken
-        );
+        // Do nothing
       }
     }
   }

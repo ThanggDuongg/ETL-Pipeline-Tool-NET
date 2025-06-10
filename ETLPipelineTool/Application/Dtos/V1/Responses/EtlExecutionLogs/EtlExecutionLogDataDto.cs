@@ -1,47 +1,42 @@
-using ETLPipelineTool.Application.Dtos.V1.Responses.EtlPipelines;
-
 namespace ETLPipelineTool.Application.Dtos.V1.Responses.EtlExecutionLogs;
 
 public record EtlExecutionLogDataDto
 {
   public Guid Id { get; init; }
-  public EtlPipelineDataDto EtlPipeline { get; init; } = default!;
-  public DateTime StartedAt { get; init; }
-  public DateTime? FinishedAt { get; init; }
+  public Guid EtlPipelineId { get; init; }
+  public DateTime StartTime { get; init; }
+  public DateTime? EndTime { get; init; }
   public EtlExecutionStatus Status { get; init; }
-  public int RecordsProcessed { get; init; }
-  public int RecordsSucceeded { get; init; }
-  public int RecordsFailed { get; init; }
-  public double ProcessingTimeMs { get; init; }
+  public int ExtractedRowCount { get; init; }
+  public int TransformedRowCount { get; init; }
+  public int LoadedRowCount { get; init; }
+  public long DurationMs { get; init; }
   public string? ErrorMessage { get; init; }
-  public string? ErrorDetails { get; init; }
 
   public EtlExecutionLogDataDto() { }
 
   public EtlExecutionLogDataDto(
     Guid id,
-    EtlPipelineDataDto etlPipeline,
-    DateTime startedAt,
-    DateTime? finishedAt,
+    Guid etlPipelineId,
+    DateTime startTime,
+    DateTime? endTime,
     EtlExecutionStatus status,
-    int recordsProcessed,
-    int recordsSucceeded,
-    int recordsFailed,
-    double processingTimeMs,
-    string? errorMessage,
-    string? errorDetails
+    int extractedRowCount,
+    int transformedRowCount,
+    int loadedRowCount,
+    long durationMs,
+    string? errorMessage
   )
   {
     Id = id;
-    EtlPipeline = etlPipeline;
-    StartedAt = startedAt;
-    FinishedAt = finishedAt;
+    EtlPipelineId = etlPipelineId;
+    StartTime = startTime;
+    EndTime = endTime;
     Status = status;
-    RecordsProcessed = recordsProcessed;
-    RecordsSucceeded = recordsSucceeded;
-    RecordsFailed = recordsFailed;
-    ProcessingTimeMs = processingTimeMs;
+    ExtractedRowCount = extractedRowCount;
+    TransformedRowCount = transformedRowCount;
+    LoadedRowCount = loadedRowCount;
+    DurationMs = durationMs;
     ErrorMessage = errorMessage;
-    ErrorDetails = errorDetails;
   }
 }

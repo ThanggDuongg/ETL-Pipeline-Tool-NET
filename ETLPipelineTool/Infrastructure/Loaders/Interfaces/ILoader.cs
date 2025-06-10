@@ -7,5 +7,7 @@
       IEnumerable<IDictionary<string, object>> transformedData,
       CancellationToken cancellationToken = default
     );
+
+    void SetConnection(DbConnection connection);
   }
 }

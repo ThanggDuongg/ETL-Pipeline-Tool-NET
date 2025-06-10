@@ -1,6 +1,6 @@
 using ETLPipelineTool.Infrastructure.Transformers.Interfaces;
 
-namespace ETLPipelineTool.Infrastructure.Transformers
+namespace ETLPipelineTool.Infrastructure.Transformers.Decorators
 {
   public class LoggingTransformerDecorator(
     ITransformer inner,

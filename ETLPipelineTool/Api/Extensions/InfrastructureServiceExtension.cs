@@ -1,7 +1,11 @@
 ﻿using ETLPipelineTool.Infrastructure.Extractors;
 using ETLPipelineTool.Infrastructure.Extractors.Decorators;
 using ETLPipelineTool.Infrastructure.Extractors.Interfaces;
+using ETLPipelineTool.Infrastructure.Loaders;
+using ETLPipelineTool.Infrastructure.Loaders.Decorators;
+using ETLPipelineTool.Infrastructure.Loaders.Interfaces;
 using ETLPipelineTool.Infrastructure.Transformers;
+using ETLPipelineTool.Infrastructure.Transformers.Decorators;
 using ETLPipelineTool.Infrastructure.Transformers.Interfaces;
 
 namespace ETLPipelineTool.Api.Extensions
@@ -29,18 +33,17 @@ namespace ETLPipelineTool.Api.Extensions
       services.AddScoped<ISchemaExtractor, MssqlSchemaExtractor>();
 
       // Transformers
-      services.AddTransient<IdentityTransformRule>();
-      services.AddTransient<ConcatTransformRule>();
-      services.AddTransient<IfNullTransformRule>();
-      services.AddTransient<RegexTransformRule>();
+      services.AddTransient<ITransformRule, IdentityTransformRule>();
+      services.AddTransient<ITransformRule, ConcatTransformRule>();
+      services.AddTransient<ITransformRule, IfNullTransformRule>();
+      services.AddTransient<ITransformRule, RegexTransformRule>();
       services.AddScoped<ITransformRuleFactory, TransformRuleFactory>();
       services.AddScoped<ITransformer, Transformer>();
       services.Decorate<ITransformer, LoggingTransformerDecorator>();
 
       // Loaders
-      services.AddScoped<MsSqlLoader>();
+      services.AddScoped<ILoader, MssqlLoader>();
       services.AddScoped<ILoaderFactory, LoaderFactory>();
-      services.AddTransient<ILoader, MsSqlLoader>();
       services.Decorate<ILoader, LoggingLoaderDecorator>();
 
       return services;

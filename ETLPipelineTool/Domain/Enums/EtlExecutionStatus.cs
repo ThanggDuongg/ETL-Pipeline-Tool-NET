@@ -2,8 +2,10 @@
 {
   public enum EtlExecutionStatus
   {
-    Running = 0,
-    Success = 1,
-    Failed = 2,
+    Pending = 0,
+    Running,
+    Completed,
+    Failed,
+    Canceled,
   }
 }

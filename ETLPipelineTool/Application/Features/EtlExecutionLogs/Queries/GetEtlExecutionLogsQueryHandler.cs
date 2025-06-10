@@ -26,16 +26,6 @@ public class GetEtlExecutionLogsQueryHandler(IEtlExecutionLogRepository reposito
       query = query.Where(x => x.Status == request.Status.Value);
     }
 
-    if (request.StartedAtFrom.HasValue)
-    {
-      query = query.Where(x => x.StartedAt >= request.StartedAtFrom.Value);
-    }
-
-    if (request.StartedAtTo.HasValue)
-    {
-      query = query.Where(x => x.StartedAt <= request.StartedAtTo.Value);
-    }
-
     return query;
   }
 

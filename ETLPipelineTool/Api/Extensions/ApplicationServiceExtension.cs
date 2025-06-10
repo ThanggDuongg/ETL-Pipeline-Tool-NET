@@ -1,4 +1,7 @@
-﻿namespace ETLPipelineTool.Api.Extensions
+﻿using ETLPipelineTool.Application.Services;
+using ETLPipelineTool.Application.Services.Interfaces;
+
+namespace ETLPipelineTool.Api.Extensions
 {
   public static class ApplicationServiceExtension
   {
@@ -11,6 +14,9 @@
       services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
       services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
       services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
+
+      services.AddScoped<IConnectionManager, ConnectionManager>();
+      services.AddScoped<IPipelineOrchestrator, PipelineOrchestrator>();
 
       return services;
     }
