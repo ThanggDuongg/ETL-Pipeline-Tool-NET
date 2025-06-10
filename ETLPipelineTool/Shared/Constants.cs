@@ -11,5 +11,14 @@
     {
       public const string NOT_FOUND = "Entity type={0}, id={1} is not found";
     }
+
+    public readonly struct JsonSetting
+    {
+      public static readonly JsonSerializerOptions DefaultOptions = new()
+      {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+      };
+    }
   }
 }
