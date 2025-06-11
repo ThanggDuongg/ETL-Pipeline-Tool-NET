@@ -28,7 +28,7 @@ namespace ETLPipelineTool.Application.Services
       {
         EtlPipelineId = pipeline.Id,
         StartTime = DateTime.UtcNow,
-        Status = EtlExecutionStatus.Running,
+        Status = EtlExecutionStatus.Pending,
       };
 
       await executionLogRepository.AddAsync(executionLog, cancellationToken);
@@ -43,6 +43,9 @@ namespace ETLPipelineTool.Application.Services
           pipeline.Id,
           pipeline.Name
         );
+
+        executionLog.Status = EtlExecutionStatus.Running;
+        await executionLogRepository.UpdateAsync(executionLog, cancellationToken);
 
         var retryPolicy = Policy
           .Handle<Exception>(ex => ex is not OperationCanceledException)

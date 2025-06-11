@@ -43,10 +43,10 @@ namespace ETLPipelineTool.Api.Controllers.V1
       var pollingDelayMs = 2000;
       var maxPollingTime = TimeSpan.FromMinutes(30);
       var startTime = DateTime.UtcNow;
-      var completed = false;
+      var isExecutionFinished = false;
 
       while (
-        !completed
+        !isExecutionFinished
         && DateTime.UtcNow - startTime < maxPollingTime
         && !cancellationToken.IsCancellationRequested
       )
@@ -75,9 +75,13 @@ namespace ETLPipelineTool.Api.Controllers.V1
             JsonSerializer.Serialize(latestLog, JsonSetting.DefaultOptions)
           );
 
-          completed = latestLog.Status != EtlExecutionStatus.Running;
+          isExecutionFinished =
+            latestLog.Status
+              is EtlExecutionStatus.Completed
+                or EtlExecutionStatus.Failed
+                or EtlExecutionStatus.Canceled;
 
-          if (!completed)
+          if (!isExecutionFinished)
           {
             await Task.Delay(pollingDelayMs, cancellationToken);
           }
