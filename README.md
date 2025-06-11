@@ -22,7 +22,7 @@ It is architected with **CQRS**, **Repository Pattern**, **background jobs**, **
 | Category             | Technology                        |
 | -------------------- | --------------------------------- |
 | Backend Framework    | ASP.NET Core Web API (.NET 8 LTS) |
-| ORM                  | Entity Framework Core 8          |
+| ORM                  | Entity Framework Core 8           |
 | Background Jobs      | Hangfire                          |
 | Caching              | Redis (StackExchange.Redis)       |
 | Logging & Tracing    | Serilog + OpenTelemetry           |
@@ -36,32 +36,38 @@ It is architected with **CQRS**, **Repository Pattern**, **background jobs**, **
 ## Project Structure
 
 ```plaintext
-src/
+ETLPipelineTool/
 ├── Api/
 │   ├── Controllers/        # API entry points
-│   ├── Extensions/          # Swagger, Middleware setups
-│   └── Middlewares/         # Custom middleware (e.g., error handling)
+│   ├── Extensions/         # Swagger, Middleware setups
+│   └── Middlewares/        # Custom middleware (e.g., error handling)
 ├── Application/
-│   ├── Commands/            # Command Handlers (CQRS)
-│   ├── Queries/             # Query Handlers (CQRS)
-│   ├── Dtos/                # Data Transfer Objects
-│   └── Services/            # Pipeline orchestration logic
+│   ├── Dtos/               # Data Transfer Objects
+│   ├── Features/           # Feature-based organization
+│   │   ├── Commands/       # Command Handlers (CQRS)
+│   │   ├── Queries/        # Query Handlers (CQRS)
+│   │   ├── Mappings/       # Object mappers
+│   │   └── Projections/    # Entity projections
+│   └── Services/           # Pipeline orchestration logic
 ├── Domain/
-│   ├── Entities/            # Core business entities
-│   ├── Events/              # Domain events
-│   └── ValueObjects/        # Value objects
+│   ├── Entities/           # Core business entities
+│   ├── Events/             # Domain events
+│   └── ValueObjects/       # Value objects
 ├── Infrastructure/
-│   ├── Extractors/          # Data source connectors (SQL, API, etc.)
-│   ├── Transformers/        # Data transformation logic
-│   ├── Loaders/             # Data loaders to destination systems
-│   ├── Repositories/        # Data persistence logic
-│   ├── BackgroundJobs/      # Hangfire recurring jobs
-│   └── ExternalClients/     # API clients, file readers, etc.
+│   ├── Extractors/         # Data source connectors (SQL, API, etc.)
+│   ├── Transformers/       # Data transformation logic
+│   ├── Loaders/            # Data loaders to destination systems
+│   ├── Persistence/        # Database context and migrations
+│   │   └── Migrations/     # EF Core migrations
+│   ├── Repositories/       # Data persistence logic
+│   ├── BackgroundJobs/     # Hangfire recurring jobs
+│   └── ExternalClients/    # API clients, file readers, etc.
 ├── Shared/
-│   ├── Caching/             # Redis caching helpers
-│   ├── Logging/             # Logging and telemetry
-│   ├── Scheduling/          # Scheduler interfaces
-│   └── Exceptions/          # Global exception handling
+│   ├── Caching/            # Redis caching helpers
+│   ├── Logging/            # Logging and telemetry
+│   ├── Helpers/            # Utility classes
+│   ├── Scheduling/         # Scheduler interfaces
+│   └── Exceptions/         # Global exception handling
 ```
 
 ---
