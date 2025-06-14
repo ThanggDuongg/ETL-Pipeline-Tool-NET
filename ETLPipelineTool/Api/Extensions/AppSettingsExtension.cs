@@ -8,6 +8,7 @@
     )
     {
       services.Configure<DatabaseSettings>(configurationManager.GetSection("Database"));
+      services.Configure<HangfireSettings>(configurationManager.GetSection("Hangfire"));
       return services;
     }
   }

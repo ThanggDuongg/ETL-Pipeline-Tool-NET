@@ -17,6 +17,7 @@ namespace ETLPipelineTool.Api.Extensions
 
       services.AddScoped<IConnectionManager, ConnectionManager>();
       services.AddScoped<IPipelineOrchestrator, PipelineOrchestrator>();
+      services.AddScoped<IBackgroundJobService, BackgroundJobService>();
 
       return services;
     }

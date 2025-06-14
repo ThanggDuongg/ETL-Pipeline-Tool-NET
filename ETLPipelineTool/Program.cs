@@ -33,7 +33,8 @@ builder
     options.LowercaseUrls = true;
     options.LowercaseQueryStrings = true;
   })
-  .AddDbContextConfiguration(builder.Configuration);
+  .AddDbContextConfiguration(builder.Configuration)
+  .AddHangfireServices(builder.Configuration);
 
 var app = builder.Build();
 

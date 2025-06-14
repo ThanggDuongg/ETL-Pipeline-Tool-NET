@@ -1,4 +1,7 @@
-﻿namespace ETLPipelineTool.Api.Extensions
+﻿using ETLPipelineTool.Api.Configurations;
+using Hangfire;
+
+namespace ETLPipelineTool.Api.Extensions
 {
   public static class MiddlewareExtension
   {
@@ -22,6 +25,14 @@
       app.UseHttpsRedirection();
       app.UseAuthentication();
       app.UseAuthorization();
+      app.UseHangfireDashboard(
+        "/jobs",
+        new DashboardOptions
+        {
+          Authorization = [new HangfireAuthorizationFilter()],
+          DashboardTitle = "ETL Pipeline Jobs",
+        }
+      );
 
       return app;
     }
