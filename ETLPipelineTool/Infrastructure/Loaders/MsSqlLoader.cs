@@ -42,6 +42,7 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
     }
 
     var dataByTable = GroupDataByTable(dataList, etlPipeline);
+    var tableLoadOrder = GetTableLoadOrder(dataByTable, etlPipeline);
 
     DbConnection conn;
     if (_externalConnection && _connection != null)
@@ -63,8 +64,13 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
         await EnsureDatabaseExistsAsync((SqlConnection)conn, cancellationToken);
       }
 
-      foreach (var (tableName, tableData) in dataByTable)
+      foreach (var tableName in tableLoadOrder)
       {
+        if (!dataByTable.TryGetValue(tableName, out var tableData))
+        {
+          continue;
+        }
+
         var targetTableName = GetTargetTableName(tableName, configuration);
 
         if (configuration.CreateTablesIfNotExist)
@@ -74,6 +80,7 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
             targetTableName,
             tableData[0],
             configuration,
+            etlPipeline,
             cancellationToken
           );
         }
@@ -246,6 +253,7 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
     string tableName,
     IDictionary<string, object> sampleRow,
     SqlTargetConfig config,
+    EtlPipeline etlPipeline,
     CancellationToken cancellationToken
   )
   {
@@ -255,7 +263,11 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
     {
       logger.LogInformation("Creating table {TableName}", tableName);
 
-      var createTableSql = GenerateCreateTableStatement(tableName, sampleRow);
+      var tableSchema =
+        etlPipeline.TableSchemas.FirstOrDefault(x => x.TableName == tableName.Split('.')[^1])
+        ?? throw new BusinessException($"Table schema not found for table {tableName}");
+
+      var createTableSql = GenerateCreateTableStatement(tableName, sampleRow, tableSchema);
 
       var cmd = new SqlCommand(createTableSql, connection);
       if (config.CommandTimeout > 0)
@@ -290,22 +302,45 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
 
   private static string GenerateCreateTableStatement(
     string tableName,
-    IDictionary<string, object> sampleRow
+    IDictionary<string, object> sampleRow,
+    TableSchema tableSchema
   )
   {
     var sb = new StringBuilder();
     sb.AppendLine($"CREATE TABLE {tableName} (");
 
     var columns = new List<string>();
+    var primaryKeyColumns = tableSchema.Columns.Where(c => c.IsPrimaryKey).ToList();
 
-    foreach (var (key, value) in sampleRow)
+    foreach (var column in tableSchema.Columns)
     {
-      var sqlType = GetSqlTypeFromValue(value);
-      columns.Add($"[{key}] {sqlType} NULL");
+      var sqlType = GetSqlTypeFromValue(sampleRow[column.ColumnName]);
+      var nullable = column.IsNullable ? "NULL" : "NOT NULL";
+      columns.Add($"[{column.ColumnName}] {sqlType} {nullable}");
+    }
+
+    if (primaryKeyColumns.Count != 0)
+    {
+      var pkColumns = string.Join(", ", primaryKeyColumns.Select(c => $"[{c.ColumnName}]"));
+      columns.Add($"CONSTRAINT [PK_{tableName.Split('.')[^1]}] PRIMARY KEY ({pkColumns})");
     }
 
     sb.AppendLine(string.Join(",\n", columns));
     sb.AppendLine(")");
+
+    foreach (var fk in tableSchema.ForeignKeys)
+    {
+      var fkColumns = string.Join(", ", fk.Columns.Select(c => $"[{c.ColumnName}]"));
+      var principalColumns = string.Join(
+        ", ",
+        fk.PrincipalColumns.Select(c => $"[{c.PrincipalColumnName}]")
+      );
+      var principalTable = $"{tableName.Split('.')[0]}.{fk.PrincipalTable}";
+
+      sb.AppendLine($"ALTER TABLE {tableName}");
+      sb.AppendLine($"ADD CONSTRAINT [{fk.ConstraintName}] FOREIGN KEY ({fkColumns})");
+      sb.AppendLine($"REFERENCES {principalTable} ({principalColumns})");
+    }
 
     return sb.ToString();
   }
@@ -468,5 +503,61 @@ public class MssqlLoader(ILogger<MssqlLoader> logger, IConnectionManager connect
     }
 
     logger.LogInformation("Inserted {RowCount} rows into {TableName}", rowsProcessed, tableName);
+  }
+
+  private List<string> GetTableLoadOrder(
+    Dictionary<string, List<IDictionary<string, object>>> dataByTable,
+    EtlPipeline etlPipeline
+  )
+  {
+    var graph = new Dictionary<string, HashSet<string>>();
+    var inDegree = new Dictionary<string, int>();
+
+    foreach (var tableName in dataByTable.Keys)
+    {
+      graph[tableName] = [];
+      inDegree[tableName] = 0;
+    }
+
+    // Build dependency graph
+    foreach (var tableSchema in etlPipeline.TableSchemas)
+    {
+      var tableName = tableSchema.TableName;
+      foreach (
+        var fk in tableSchema.ForeignKeys.Where(fk => dataByTable.ContainsKey(fk.PrincipalTable))
+      )
+      {
+        graph[fk.PrincipalTable].Add(tableName);
+        inDegree[tableName]++;
+      }
+    }
+
+    // Topological sort
+    var result = new List<string>();
+    var queue = new Queue<string>(inDegree.Where(x => x.Value == 0).Select(x => x.Key));
+
+    while (queue.Count > 0)
+    {
+      var current = queue.Dequeue();
+      result.Add(current);
+
+      foreach (var dependent in graph[current])
+      {
+        inDegree[dependent]--;
+        if (inDegree[dependent] == 0)
+        {
+          queue.Enqueue(dependent);
+        }
+      }
+    }
+
+    // Add any remaining tables (should not happen in a valid schema)
+    foreach (var table in inDegree.Where(x => x.Value > 0).Select(x => x.Key))
+    {
+      logger.LogWarning("Table {TableName} has unresolved dependencies", table);
+      result.Add(table);
+    }
+
+    return result;
   }
 }
