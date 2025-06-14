@@ -24,6 +24,7 @@ public class UpdateFieldMappingCommandHandler(
       null,
       f => f.Include(x => x.SourceFields).Include(x => x.TransformRules),
       true,
+      false,
       cancellationToken
     );
 

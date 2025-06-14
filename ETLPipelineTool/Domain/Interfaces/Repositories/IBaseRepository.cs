@@ -10,6 +10,7 @@
       Expression<Func<TEntity, bool>>? predicate,
       Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
       bool isTracking = false,
+      bool asSplitQuery = false,
       CancellationToken cancellationToken = default
     );
 

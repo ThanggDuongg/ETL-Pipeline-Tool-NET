@@ -51,6 +51,7 @@
       Expression<Func<TEntity, bool>>? predicate,
       Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null,
       bool isTracking = false,
+      bool asSplitQuery = false,
       CancellationToken cancellationToken = default
     )
     {
@@ -67,6 +68,10 @@
       if (predicate != null)
       {
         query = query.Where(predicate);
+      }
+      if (asSplitQuery)
+      {
+        query = query.AsSplitQuery();
       }
 
       return await query.SingleOrDefaultAsync(x => x.Id == id, cancellationToken)

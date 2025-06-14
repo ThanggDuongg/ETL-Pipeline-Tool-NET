@@ -15,7 +15,20 @@ namespace ETLPipelineTool.Application.Features.EtlPipelines.Commands
     {
       logger.LogInformation("Starting execution of ETL pipeline {PipelineId}", command.Id);
 
-      var etlPipeline = await etlPipelineRepository.GetByIdAsync(command.Id, cancellationToken);
+      var etlPipeline = await etlPipelineRepository.GetByIdAsync(
+        id: command.Id,
+        predicate: null,
+        include: e =>
+          e.Include(x => x.TableSchemas)
+            .ThenInclude(x => x.Columns)
+            .Include(x => x.FieldMappings)
+            .ThenInclude(x => x.SourceFields)
+            .Include(x => x.FieldMappings)
+            .ThenInclude(x => x.TransformRules),
+        isTracking: false,
+        asSplitQuery: true,
+        cancellationToken: cancellationToken
+      );
 
       // Start pipeline execution in background using "fire and forget" pattern
       // This allows the API to respond immediately while the ETL process continues running
